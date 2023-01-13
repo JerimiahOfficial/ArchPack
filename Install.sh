@@ -15,11 +15,14 @@
 # Cd to the opt directory
 cd /opt
 
+# Make sure the system is up to date
+sudo pacman -Syu --noconfirm
+
 # Uncomment the line 94 from /etc/pacman.conf
 sudo sed -i '94s/^#//' /etc/pacman.conf
 
-# Make sure the system is up to date
-sudo pacman -Syu --noconfirm
+# Install the multilib repository
+sudo pacman -Sy
 
 # Install all the packages that can be installed with pacman
 pacman=(bitwarden discord steam ufw git base-devel)
