@@ -6,9 +6,11 @@
 # The software that will be installed after running this script:
 # - Bitwarden
 # - Discord
+# - Firefox
 # - github-desktop
 # - Spotify
 # - Steam
+# - ufw
 # - VSCode
 
 # Cd to the opt directory
@@ -30,4 +32,8 @@ makepkg -si
 yay -Syu
 
 # Installing the software with no prompts
-yay -S --noconfirm bitwarden discord github-desktop spotify steam visual-studio-code-bin
+yay -S --noconfirm bitwarden discord firefox github-desktop spotify steam ufw visual-studio-code-bin
+
+# Start and enable ufw
+sudo systemctl enable ufw
+sudo systemctl start ufw
