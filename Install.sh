@@ -2,8 +2,10 @@
 # Cd to the opt directory
 cd /opt
 
-# Enable multilib inside of pacman.conf
-sudo sed -i '/\[multilib\]/,/Include/s/^#//' /etc/pacman.conf
+# Check if multilib is installed
+if ! grep -q "\[multilib\]" /etc/pacman.conf; then
+    sudo sed -i '/\[multilib\]/,/Include/s/^#//' /etc/pacman.conf
+fi
 
 # Make sure the system is up to date
 sudo pacman -Syu --noconfirm
