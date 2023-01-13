@@ -1,5 +1,4 @@
 # !/bin/bash -e
-
 # Cd to the opt directory
 cd /opt
 
@@ -13,7 +12,8 @@ sudo pacman -Syu --noconfirm
 pacman=(bitwarden base-devel discord git p7zip steam ufw)
 
 for i in "${pacman[@]}"; do
-    sudo pacman -S --noconfirm $i
+    echo "Installing $i"
+    sudo pacman -S --needed --noconfirm $i
 done
 
 # Start and enable ufw
@@ -21,8 +21,8 @@ sudo systemctl enable ufw
 sudo systemctl start ufw
 
 # Installing yay
-sudo git clone https://aur.archlinux.org/yay-git.git
-sudo chown -R $USER:$USER ./yay-git
+sudo git clone https://aur.archlinux.org/yay.git
+sudo chown -R $USER:$USER ./yay
 
 cd yay-git
 
@@ -35,5 +35,6 @@ sudo yay -Syu
 yay=(github-desktop openrgb spotify visual-studio-code-bin)
 
 for i in "${yay[@]}"; do
+    echo "Installing $i"
     yay -S --noconfirm $i
 done
