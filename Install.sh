@@ -23,7 +23,7 @@ sudo sed -i '/\[multilib\]/,/Include/s/^#//' /etc/pacman.conf
 sudo pacman -Syu --noconfirm
 
 # Install all the packages that can be installed with pacman
-pacman=(bitwarden discord steam ufw git base-devel)
+pacman=(bitwarden base-devel discord git p7zip steam ufw)
 
 for i in "${pacman[@]}"; do
     sudo pacman -S --noconfirm $i
@@ -41,7 +41,7 @@ makepkg -si
 sudo yay -Syu
 
 # Install all the packages that can be installed with yay
-yay=(github-desktop spotify visual-studio-code-bin)
+yay=(github-desktop openrgb spotify visual-studio-code-bin)
 
 for i in "${yay[@]}"; do
     yay -S --noconfirm $i
