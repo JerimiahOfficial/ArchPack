@@ -16,6 +16,10 @@ for i in "${pacman[@]}"; do
     sudo pacman -S --noconfirm $i
 done
 
+# Start and enable ufw
+sudo systemctl enable ufw
+sudo systemctl start ufw
+
 # Installing yay
 sudo git clone https://aur.archlinux.org/yay-git.git
 sudo chown -R $USER:$USER ./yay-git
@@ -33,7 +37,3 @@ yay=(github-desktop openrgb spotify visual-studio-code-bin)
 for i in "${yay[@]}"; do
     yay -S --noconfirm $i
 done
-
-# Start and enable ufw
-sudo systemctl enable ufw
-sudo systemctl start ufw
