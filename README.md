@@ -1,5 +1,5 @@
 # ArchPack
-This is a script to install all the software I need on a new arch system.
+This is a script to install all the software I need on a new arch system. This script is to be ran after a fresh install on an Archlinux system.
 
 This script will install the following software:
 - Bitwarden
