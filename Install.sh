@@ -17,8 +17,7 @@
 # Cd to the opt directory
 cd /opt
 
-# Uncomment [multilib] and the next line in /etc/pacman.conf
-# using a multiline sed command
+# Enable multilib inside of pacman.conf
 sudo sed -i '/\[multilib\]/,/Include/s/^#//' /etc/pacman.conf
 
 # Make sure the system is up to date
