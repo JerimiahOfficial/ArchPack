@@ -1,7 +1,7 @@
 # ArchPack
 This is a script to install all the software I need on a new arch system.
 
-The software that will be installed after running this script:
+This script will install the following software:
 - Bitwarden
 - Discord
 - github-desktop
