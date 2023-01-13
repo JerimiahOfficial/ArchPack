@@ -6,19 +6,11 @@
 # The software that will be installed after running this script:
 # - Bitwarden
 # - Discord
-# - Firefox
 # - github-desktop
 # - Spotify
 # - Steam
 # - ufw
 # - VSCode
-
-# Make sure user running has sudo privileges
-# chech if they are apart of the sudo group
-if ! getent group sudo | grep -q "\b$USER\b"; then
-    echo "Script must be run as a user with sudo privileges"
-    exit 1
-fi
 
 # Cd to the opt directory
 cd /opt
@@ -26,8 +18,14 @@ cd /opt
 # Make sure the system is up to date
 sudo pacman -Syu --noconfirm
 
+# Install all the packages that can be installed with pacman
+pacman=(bitwarden discord ufw git base-devel)
+
+for i in "${pacman[@]}"; do
+    sudo pacman -S --noconfirm $i
+done
+
 # Installing yay
-sudo pacman -S --noconfirm git base-devel
 sudo git clone https://aur.archlinux.org/yay-git.git
 sudo chown -R $USER:$USER ./yay-git
 
@@ -38,8 +36,12 @@ makepkg -si
 # Make sure the yay packages are up to date
 sudo yay -Syu
 
-# Installing the software with no prompts
-sudo yay -S --noconfirm bitwarden discord firefox github-desktop spotify steam ufw visual-studio-code-bin
+# Install all the packages that can be installed with yay
+yay=(github-desktop spotify steam visual-studio-code-bin)
+
+for i in "${yay[@]}"; do
+    yay -S --noconfirm $i
+done
 
 # Start and enable ufw
 sudo systemctl enable ufw
