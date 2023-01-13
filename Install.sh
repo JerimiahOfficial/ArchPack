@@ -6,7 +6,6 @@
 # The software that will be installed after running this script:
 # - Bitwarden
 # - Discord
-# - Firefox
 # - github-desktop
 # - Spotify
 # - Steam
@@ -31,4 +30,4 @@ makepkg -si
 yay -Syu
 
 # Installing the software with no prompts
-yay -S --noconfirm bitwarden discord firefox github-desktop spotify steam visual-studio-code-bin
+yay -S --noconfirm bitwarden discord github-desktop spotify steam visual-studio-code-bin
