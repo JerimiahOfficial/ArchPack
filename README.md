@@ -12,4 +12,5 @@ The software that will be installed after running this script:
 - ufw
 - VSCode
 
+Command to run the script from the terminal:
 `bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Install.sh)`
