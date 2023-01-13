@@ -21,18 +21,18 @@ sudo pacman -Syu --noconfirm
 
 # Installing yay
 sudo pacman -S --noconfirm git base-devel
+sudo git clone https://aur.archlinux.org/yay-git.git
+sudo chown -R $USER:$USER ./yay-git
 
-sudo git clone https://aur.archlinux.org/yay.git
-
-cd yay
+cd yay-git
 
 makepkg -si
 
 # Make sure the yay packages are up to date
-yay -Syu
+sudo yay -Syu
 
 # Installing the software with no prompts
-yay -S --noconfirm bitwarden discord firefox github-desktop spotify steam ufw visual-studio-code-bin
+sudo yay -S --noconfirm bitwarden discord firefox github-desktop spotify steam ufw visual-studio-code-bin
 
 # Start and enable ufw
 sudo systemctl enable ufw
