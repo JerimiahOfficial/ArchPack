@@ -7,6 +7,8 @@
 # - Bitwarden
 # - Discord
 # - github-desktop
+# - openrgb
+# - p7zip
 # - Spotify
 # - Steam
 # - ufw
