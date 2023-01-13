@@ -13,6 +13,13 @@
 # - ufw
 # - VSCode
 
+# Make sure user running has sudo privileges
+# chech if they are apart of the sudo group
+if ! getent group sudo | grep -q "\b$USER\b"; then
+    echo "Script must be run as a user with sudo privileges"
+    exit 1
+fi
+
 # Cd to the opt directory
 cd /opt
 
