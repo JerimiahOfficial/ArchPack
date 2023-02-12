@@ -52,7 +52,7 @@ echo "Installing software"
 # p7zip
 # Spotify
 # Steam
-# vscodium
+# vscode
 list=(
     bitwarden
     discord
@@ -61,7 +61,7 @@ list=(
     p7zip
     spotify
     steam
-    vscodium
+    vscode
 )
 
 # Install packages
