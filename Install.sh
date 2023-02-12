@@ -19,7 +19,7 @@ sudo systemctl start ufw
 
 # Install nix package manager.
 echo "Installing nix"
-pacman -S nix --noconfirm
+sudo pacman -S nix --noconfirm
 
 echo "Launching nix daemon"
 sudo systemctl enable nix-daemon
