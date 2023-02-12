@@ -10,7 +10,7 @@ This script will install the following software:
 - Spotify
 - Steam
 - ufw
-- vscodium-bin
+- vscode
 
 Command to run the script from the terminal:  
 `bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Install.sh)`
