@@ -54,7 +54,7 @@ list=(
 export NIXPKGS_ALLOW_UNFREE=1
 for i in "${list[@]}"; do
     echo "Installing $i"
-    nix-env -iA nixpkgs.$i
+    nix-env -iA nixpkgs.$i --quiet
 done
 
 # Installation is complete.
