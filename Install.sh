@@ -1,5 +1,5 @@
 # !/bin/bash -e
-# If multilib is not enabled stop the script.
+echo "Checking for multilib"
 if ! grep -q "\[multilib\]" /etc/pacman.conf; then
     echo "Multilib is not enabled. Please enable multilib in /etc/pacman.conf"
     exit 1
@@ -8,52 +8,33 @@ fi
 echo "Updating system"
 sudo pacman -Syu --noconfirm
 
-echo "Installing ufw"
-sudo pacman -S ufw --noconfirm
+echo "Installing pacman packages"
+pacman=(bitwarden discord git p7zip steam ufw)
+for i in "${pacman[@]}"; do
+    echo "Installing $i"
+    sudo pacman -S --noconfirm $i >/dev/null
+done
 
 echo "Enabling ufw"
 sudo systemctl enable ufw
 sudo systemctl start ufw
 
-echo "Installing nix"
-sudo pacman -S nix --noconfirm
+echo "Installing yay"
+cd /opt
 
-echo "Launching nix daemon"
-sudo systemctl enable nix-daemon
-sudo systemctl start nix-daemon
+sudo git clone https://aur.archlinux.org/yay.git
+sudo chown -R $USER:$USER ./yay
 
-echo "Adding current user to nix group"
-sudo usermod -a -G nix-users $USER
-sudo usermod -a -G nixbld $USER
+cd yay
 
-echo "Running nix setup"
-nix-env --install --quiet
+makepkg -si
 
-echo "Adding channels"
-nix-channel --add https://nixos.org/channels/nixpkgs-unstable
-nix-channel --update
+echo "Updating yay packages"
+sudo yay -Syu
 
-echo "Installing software"
-
-# If you want to add your own packages to personalize
-# your script goto https://search.nixos.org/packages.
-list=(
-    bitwarden
-    discord
-    git
-    github-desktop
-    openrgb
-    p7zip
-    spotify
-    steam
-    vscode
-)
-
-export NIXPKGS_ALLOW_UNFREE=1
-for i in "${list[@]}"; do
+echo "Installing yay packages"
+yay=(github-desktop openrgb spotify visual-studio-code-bin)
+for i in "${yay[@]}"; do
     echo "Installing $i"
-    nix-env -iA nixpkgs.$i --quiet
+    yay -S --noconfirm $i >/dev/null
 done
-
-echo "Installation complete"
-exit 0
