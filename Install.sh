@@ -1,58 +1,45 @@
 # !/bin/bash -e
-# Check if multilib is installed
+# If multilib is not enabled stop the script.
 if ! grep -q "\[multilib\]" /etc/pacman.conf; then
-    echo "Enabling multilib"
-    sudo sed -i '/\[multilib\]/,/Include/s/^#//' /etc/pacman.conf
+    echo "Multilib is not enabled. Please enable multilib in /etc/pacman.conf"
+    exit 1
 fi
 
-# Make sure the system is up to date
+# Make sure the system is up to date.
 echo "Updating system"
 sudo pacman -Syu --noconfirm
 
-# Install ufw
+# Install ufw.
 echo "Installing ufw"
 sudo pacman -S ufw --noconfirm
 
-# Enable ufw
 echo "Enabling ufw"
 sudo systemctl enable ufw
 sudo systemctl start ufw
 
-# Install nix package manager
+# Install nix package manager.
 echo "Installing nix"
 pacman -S nix --noconfirm
 
-# Launch nix daemon
 echo "Launching nix daemon"
 sudo systemctl enable nix-daemon
 sudo systemctl start nix-daemon
 
-# Add current user to nix group
 echo "Adding current user to nix group"
 sudo usermod -a -G nix-users $USER
 sudo usermod -a -G nix-bld $USER
 
-# Run nix setup
 echo "Running nix setup"
 nix-env --install
 
-# Add channels
 echo "Adding channels"
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable
 nix-channel --update
 
-# Install software
 echo "Installing software"
 
-# List of packages to install
-# Bitwarden
-# Discord
-# github-desktop
-# openrgb
-# p7zip
-# Spotify
-# Steam
-# vscode
+# If you want to add your own packages to personalize
+# your script goto https://search.nixos.org/packages.
 list=(
     bitwarden
     discord
@@ -61,11 +48,14 @@ list=(
     p7zip
     spotify
     steam
-    vscode
+    vscodium
 )
 
-# Install packages
 for i in "${list[@]}"; do
     echo "Installing $i"
     nix-env -iA nixpkgs.$i
 done
+
+# Installation is complete.
+echo "Installation complete"
+exit 0
