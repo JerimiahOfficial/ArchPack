@@ -40,6 +40,7 @@ echo "Installing software"
 list=(
     bitwarden
     discord
+    git
     github-desktop
     openrgb
     p7zip
