@@ -4,6 +4,7 @@ This is a script to install all the software I need on a new arch system. This s
 This script will install the following software:
 - Bitwarden
 - Discord
+- git
 - github-desktop
 - openrgb
 - p7zip
