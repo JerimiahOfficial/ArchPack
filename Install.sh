@@ -48,9 +48,10 @@ list=(
     p7zip
     spotify
     steam
-    vscodium
+    vscode
 )
 
+export NIXPKGS_ALLOW_UNFREE=1
 for i in "${list[@]}"; do
     echo "Installing $i"
     nix-env -iA nixpkgs.$i
