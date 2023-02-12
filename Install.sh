@@ -5,11 +5,9 @@ if ! grep -q "\[multilib\]" /etc/pacman.conf; then
     exit 1
 fi
 
-# Make sure the system is up to date.
 echo "Updating system"
 sudo pacman -Syu --noconfirm
 
-# Install ufw.
 echo "Installing ufw"
 sudo pacman -S ufw --noconfirm
 
@@ -17,7 +15,6 @@ echo "Enabling ufw"
 sudo systemctl enable ufw
 sudo systemctl start ufw
 
-# Install nix package manager.
 echo "Installing nix"
 sudo pacman -S nix --noconfirm
 
@@ -27,10 +24,10 @@ sudo systemctl start nix-daemon
 
 echo "Adding current user to nix group"
 sudo usermod -a -G nix-users $USER
-sudo usermod -a -G nix-bld $USER
+sudo usermod -a -G nixbld $USER
 
 echo "Running nix setup"
-nix-env --install
+nix-env --install --quiet
 
 echo "Adding channels"
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable
@@ -57,6 +54,5 @@ for i in "${list[@]}"; do
     nix-env -iA nixpkgs.$i --quiet
 done
 
-# Installation is complete.
 echo "Installation complete"
 exit 0
