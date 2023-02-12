@@ -37,7 +37,7 @@ echo "Updating yay packages"
 sudo yay -Syu
 
 # Install all the packages that can be installed with yay
-yay=(github-desktop openrgb spotify visual-studio-code-bin)
+yay=(github-desktop openrgb spotify vscodium-bin)
 for i in "${yay[@]}"; do
     echo "Installing $i"
     yay -S --noconfirm $i >/dev/null
