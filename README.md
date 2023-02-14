@@ -6,6 +6,8 @@ This script will install the following software:
 - Discord
 - git
 - github-desktop
+- nvidia 
+- nvidia-libgl
 - openrgb
 - p7zip
 - Spotify
