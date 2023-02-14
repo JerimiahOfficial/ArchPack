@@ -26,7 +26,7 @@ sudo chown -R $USER:$USER ./yay
 
 cd yay
 
-makepkg -si
+makepkg -si --noconfirm >/dev/null
 
 echo "Installing yay packages"
 sudo yay -Syu --noconfirm >/dev/null
