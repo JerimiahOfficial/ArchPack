@@ -1,7 +1,7 @@
 # !/bin/bash -e
 echo "Checking for multilib"
 if ! grep -q "\[multilib\]" /etc/pacman.conf; then
-    echo "Multilib is not enabled. Please enable multilib in /etc/pacman.conf"
+    echo "Multilib is not enabled."
     exit 1
 fi
 
