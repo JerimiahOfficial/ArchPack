@@ -19,18 +19,14 @@ sudo systemctl enable ufw
 sudo systemctl start ufw
 
 echo "Installing yay"
-cd /opt
-
 sudo git clone https://aur.archlinux.org/yay.git
 sudo chown -R $USER:$USER ./yay
-
 cd yay
-
 makepkg -si --noconfirm >/dev/null
 
 echo "Installing yay packages"
 sudo yay -Syu --noconfirm >/dev/null
-yay=(github-desktop openrgb spotify visual-studio-code-bin)
+yay=(github-desktop openrgb spotify visual-studio-code-bin proton wine-stable)
 
 for i in "${yay[@]}"; do
     echo "Installing $i"
