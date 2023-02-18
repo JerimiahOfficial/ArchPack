@@ -7,7 +7,7 @@ fi
 
 echo "Installing pacman packages"
 sudo pacman -Syu --noconfirm >/dev/null
-pacman=(bitwarden discord git p7zip steam ufw nvidia nvidia-libgl)
+pacman=(bitwarden discord git p7zip steam ufw)
 
 for i in "${pacman[@]}"; do
     echo "Installing $i"
