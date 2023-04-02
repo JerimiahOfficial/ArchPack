@@ -5,14 +5,11 @@ if ! grep -q "\[multilib\]" /etc/pacman.conf; then
     exit 1
 fi
 
-echo "Installing pacman packages"
+echo "Updating pacman packages"
 sudo pacman -Syu --noconfirm >/dev/null
-pacman=(bitwarden discord git p7zip steam ufw)
 
-for i in "${pacman[@]}"; do
-    echo "Installing $i"
-    sudo pacman -S --noconfirm $i >/dev/null
-done
+echo "Installing pacman packages"
+sudo pacman -S bitwarden discord git p7zip steam ufw
 
 echo "Enabling ufw"
 sudo systemctl enable ufw
@@ -24,8 +21,10 @@ sudo chown -R $USER:$USER ./yay
 cd yay
 makepkg -si --noconfirm >/dev/null
 
-echo "Installing yay packages"
+echo "Updating yay packages"
 sudo yay -Syu --noconfirm >/dev/null
+
+echo "Installing yay packages"
 yay=(github-desktop openrgb spotify visual-studio-code-bin proton wine-stable)
 
 for i in "${yay[@]}"; do
