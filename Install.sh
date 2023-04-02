@@ -25,11 +25,6 @@ echo "Updating yay packages"
 sudo yay -Syu --noconfirm >/dev/null
 
 echo "Installing yay packages"
-yay=(github-desktop openrgb spotify visual-studio-code-bin proton wine-stable)
-
-for i in "${yay[@]}"; do
-    echo "Installing $i"
-    yay -S --noconfirm $i >/dev/null
-done
+yay -S --noconfirm github-desktop spotify visual-studio-code-bin >/dev/null
 
 exit 0
