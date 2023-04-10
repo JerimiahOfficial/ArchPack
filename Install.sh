@@ -9,17 +9,19 @@ echo "Updating pacman packages"
 sudo pacman -Syu --noconfirm >/dev/null
 
 echo "Installing pacman packages"
-sudo pacman -S bitwarden discord git lib32-nvidia-utils nvidia-utils p7zip steam ufw
+sudo pacman -S --noconfirm bitwarden discord git lib32-nvidia-utils nvidia-utils p7zip steam ufw >/dev/null
 
 echo "Enabling ufw"
 sudo systemctl enable ufw
 sudo systemctl start ufw
 
-echo "Installing yay"
-sudo git clone https://aur.archlinux.org/yay.git
-sudo chown -R $USER:$USER ./yay
-cd yay
-makepkg -si --noconfirm >/dev/null
+if ! command -v yay &>/dev/null; then
+    echo "Installing yay"
+    sudo git clone https://aur.archlinux.org/yay.git
+    sudo chown -R $USER:$USER ./yay
+    cd yay
+    makepkg -si --noconfirm >/dev/null
+fi
 
 echo "Updating yay packages"
 sudo yay -Syu --noconfirm >/dev/null
