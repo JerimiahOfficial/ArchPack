@@ -9,7 +9,7 @@ echo "Updating pacman packages"
 sudo pacman -Syu --noconfirm >/dev/null
 
 echo "Installing pacman packages"
-sudo pacman -S bitwarden discord git p7zip steam ufw
+sudo pacman -S bitwarden discord git lib32-nvidia-utils nvidia-utils p7zip steam ufw
 
 echo "Enabling ufw"
 sudo systemctl enable ufw
@@ -25,6 +25,6 @@ echo "Updating yay packages"
 sudo yay -Syu --noconfirm >/dev/null
 
 echo "Installing yay packages"
-yay -S --noconfirm github-desktop spotify visual-studio-code-bin >/dev/null
+yay -S --noconfirm github-desktop spotify visual-studio-code-bin librewolf-bin >/dev/null
 
 exit 0

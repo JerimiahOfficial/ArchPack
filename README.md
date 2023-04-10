@@ -1,19 +1,24 @@
 # ArchPack
 This is a script to install all the software I need on a new arch system. This script is to be ran after a fresh install on an Archlinux system.
 
-This script will install the following software:
-- Bitwarden
-- Discord
+## Packages
+### Pacman:
+- bitwarden
+- discord
 - git
-- github-desktop
-- openrgb
+- lib32-nvidia-utils
+- nvidia-utils
 - p7zip
-- proton
-- Spotify
-- Steam
+- steam
 - ufw
-- vscode
-- wine-stable
 
-Command to run the script from the terminal:  
+### Yay:
+- github-desktop
+- librewolf-bin
+- spotify
+- visual-studio-code-bin
+
+## Command to run it
+
+This is the command to run the script from your terminal:
 `bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Install.sh)`
