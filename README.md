@@ -20,5 +20,5 @@ This is a script to install all the software I need on a new arch system. This s
 
 ## Command to run it
 
-This is the command to run the script from your terminal:
+This is the command to run the script from your terminal:  
 `bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Install.sh)`
