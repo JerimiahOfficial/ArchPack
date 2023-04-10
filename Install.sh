@@ -25,6 +25,6 @@ echo "Updating yay packages"
 sudo yay -Syu --noconfirm >/dev/null
 
 echo "Installing yay packages"
-yay -S --noconfirm github-desktop spotify visual-studio-code-bin librewolf-bin >/dev/null
+yay -S --noconfirm github-desktop-bin spotify visual-studio-code-bin librewolf-bin >/dev/null
 
 exit 0

@@ -13,7 +13,7 @@ This is a script to install all the software I need on a new arch system. This s
 - ufw
 
 ### Yay:
-- github-desktop
+- github-desktop-bin
 - librewolf-bin
 - spotify
 - visual-studio-code-bin
