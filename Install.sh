@@ -1,4 +1,5 @@
 # !/bin/bash -e
+
 echo "Checking for multilib"
 if ! grep -q "\[multilib\]" /etc/pacman.conf; then
     echo "Multilib is not enabled."
@@ -6,11 +7,12 @@ if ! grep -q "\[multilib\]" /etc/pacman.conf; then
 fi
 
 echo "Updating pacman packages"
-sudo pacman -Syu --noconfirm >/dev/null
+sudo pacman -Syu --noconfirm
 
 echo "Installing pacman packages"
-sudo pacman -S --noconfirm bitwarden discord git lib32-nvidia-utils nvidia-utils p7zip steam ufw >/dev/null
+sudo pacman -S bitwarden discord firefox git lib32-nvidia-utils nvidia-utils p7zip steam ufw
 
+# Note -> ufw needs to be enable through kde's firewall application.
 echo "Enabling ufw"
 sudo systemctl enable ufw
 sudo systemctl start ufw
@@ -20,13 +22,13 @@ if ! command -v yay &>/dev/null; then
     sudo git clone https://aur.archlinux.org/yay.git
     sudo chown -R $USER:$USER ./yay
     cd yay
-    makepkg -si --noconfirm >/dev/null
+    makepkg -si --noconfirm
 fi
 
 echo "Updating yay packages"
-sudo yay -Syu --noconfirm >/dev/null
+sudo yay -Syu --noconfirm
 
 echo "Installing yay packages"
-yay -S --noconfirm github-desktop-bin spotify visual-studio-code-bin librewolf-bin >/dev/null
+yay -S github-desktop-bin spotify visual-studio-code-bin
 
 exit 0
