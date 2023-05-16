@@ -1,8 +1,7 @@
 # !/bin/bash -e
-
 echo "Checking for multilib"
 if ! grep -q "\[multilib\]" /etc/pacman.conf; then
-    echo "Multilib is not enabled."
+    echo "Steam requires Multilib which is not enabled."
     exit 1
 fi
 
@@ -10,9 +9,9 @@ echo "Updating pacman packages"
 sudo pacman -Syu --noconfirm
 
 echo "Installing pacman packages"
-sudo pacman -S bitwarden discord firefox git lib32-nvidia-utils nvidia-utils p7zip steam ufw
+sudo pacman -S bitwarden discord git lib32-nvidia-utils nvidia-utils p7zip steam ufw
 
-# Note -> ufw needs to be enable through kde's firewall application.
+# ufw needs to be enable in kde's firewall settings.
 echo "Enabling ufw"
 sudo systemctl enable ufw
 sudo systemctl start ufw
@@ -29,6 +28,6 @@ echo "Updating yay packages"
 sudo yay -Syu --noconfirm
 
 echo "Installing yay packages"
-yay -S github-desktop-bin spotify visual-studio-code-bin
+yay -S --noconfirm github-desktop-bin librewolf-bin vscodium-bin
 
 exit 0

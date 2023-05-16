@@ -15,8 +15,7 @@ This is a script to install all the software I need on a new arch system. This s
 ### Yay:
 - github-desktop-bin
 - librewolf-bin
-- spotify
-- visual-studio-code-bin
+- vscodium-bin
 
 ## Command to run it
 
