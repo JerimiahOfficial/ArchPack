@@ -15,6 +15,7 @@ This is a script to install all the software I need on a new arch system. This s
 ### Yay:
 - github-desktop-bin
 - librewolf-bin
+- portmaster-stub-bin
 - vscodium-bin
 
 ## Command to run it
