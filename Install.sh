@@ -9,13 +9,25 @@ echo "Updating pacman packages"
 sudo pacman -Syu --noconfirm
 
 echo "Installing pacman packages"
-sudo pacman -S bitwarden discord git lib32-nvidia-utils nvidia-utils p7zip steam ufw
+sudo pacman -S bitwarden discord firefox firewalld git lib32-nvidia-utils nvidia-utils obs-studio p7zip steam
 
-# ufw needs to be enable in kde's firewall settings.
-echo "Enabling ufw"
-sudo systemctl enable ufw
-sudo systemctl start ufw
+echo "Installing virtualization packages"
+sudo pacman -S aqemu bridge-utils dnsmasq libvirt openbsd-netcat qemu vde2 virt-manager virt-viewer
 
+echo "Services"
+# ufw needs to be enable in kde's firewall settings page.
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
+
+# Adding user to libvirt group and starting the service.
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtd
+
+sudo usermod -aG libvirt $USER
+
+sudo systemctl restart libvirtd
+
+# Installing aur package manager.
 cd ~
 
 if ! command -v yay &>/dev/null; then
@@ -26,10 +38,10 @@ if ! command -v yay &>/dev/null; then
 fi
 
 echo "Updating yay packages"
-sudo yay -Syu --noconfirm
+yay -Syu --noconfirm
 
 echo "Installing yay packages"
-yay -S --noconfirm github-desktop-bin librewolf-bin portmaster-stub-bin vscodium-bin
+yay -S github-desktop-bin vscodium-bin minecraft-launcher
 
 echo "Installing themes"
 sudo git clone https://github.com/vinceliuice/Orchis-kde.git
