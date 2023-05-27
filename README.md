@@ -17,8 +17,6 @@ This is a script to install all the software I need on a new arch system. This s
 - p7zip
 - steam
 - xdg-desktop-portal
-
-### Virtualization
 - bridge-utils
 - dnsmasq
 - libvirt
