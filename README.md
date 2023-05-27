@@ -21,7 +21,7 @@ This is a script to install all the software I need on a new arch system. This s
 - dnsmasq
 - libvirt
 - openbsd-netcat
-- qemu
+- qemu-full
 - vde2
 - virt-manager
 - virt-viewer
