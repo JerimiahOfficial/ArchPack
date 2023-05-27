@@ -9,10 +9,10 @@ echo "Updating pacman packages"
 sudo pacman -Syu --noconfirm
 
 echo "Installing pacman packages"
-sudo pacman -S bitwarden discord firefox firewalld git lib32-nvidia-utils nvidia-utils obs-studio p7zip steam
+sudo pacman -S bitwarden discord firefox firewalld git jre17-openjdk lib32-nvidia-utils nodejs npm nvidia-settings nvidia-utils obs-studio p7zip steam xdg-desktop-portal
 
 echo "Installing virtualization packages"
-sudo pacman -S aqemu bridge-utils dnsmasq libvirt openbsd-netcat qemu vde2 virt-manager virt-viewer
+sudo pacman -S bridge-utils dnsmasq libvirt openbsd-netcat qemu vde2 virt-manager virt-viewer
 
 echo "Services"
 # ufw needs to be enable in kde's firewall settings page.

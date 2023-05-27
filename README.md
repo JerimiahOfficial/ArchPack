@@ -7,13 +7,18 @@ This is a script to install all the software I need on a new arch system. This s
 - firefox
 - firewalld
 - git
+- jre17-openjdk
 - lib32-nvidia-utils
+- nodejs
+- npm
+- nvidia-settings
 - nvidia-utils
 - obs-studio
 - p7zip
 - steam
+- xdg-desktop-portal
+
 ### Virtualization
-- aqemu
 - bridge-utils
 - dnsmasq
 - libvirt
@@ -25,10 +30,8 @@ This is a script to install all the software I need on a new arch system. This s
 
 ## Yay packages
 - github-desktop-bin
-- librewolf-bin
-- minecraft-launcher
-- portmaster-stub-bin
 - vscodium-bin
+- minecraft-launcher
 
 ## Command to run it
 
