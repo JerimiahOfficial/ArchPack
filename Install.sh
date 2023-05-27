@@ -45,7 +45,8 @@ yay -S github-desktop-bin vscodium-bin minecraft-launcher
 
 echo "Installing themes"
 sudo git clone https://github.com/vinceliuice/Orchis-kde.git
-(cd Orchis-kde && bash install.sh)
+(cd ./Orchis-kde && bash install.sh)
+(cd ./Orchis-kde/sddm && bash install.sh)
 
 sudo git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git
 (cd Tela-circle-icon-theme && bash install.sh)
