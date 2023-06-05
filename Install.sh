@@ -5,36 +5,30 @@ if ! grep -q "\[multilib\]" /etc/pacman.conf; then
     exit 1
 fi
 
+cd ~
+
 echo "Updating pacman packages"
 sudo pacman -Syu --noconfirm
 
-echo "Installing pacman packages"
-sudo pacman -S bitwarden discord firefox firewalld git jre17-openjdk lib32-nvidia-utils nodejs npm nvidia-settings nvidia-utils obs-studio p7zip steam xdg-desktop-portal
+echo "Installing system packages"
+sudo pacman -S firewalld lib32-nvidia-utils nvidia-settings nvidia-utils xdg-desktop-portal
+
+echo "Installing applications"
+sudo pacman -S bitwarden discord firefox obs-studio steam kdeconnect 
+
+echo "Installing developement packages"
+sudo pacman -S git jre17-openjdk nodejs npm
 
 echo "Installing virtualization packages"
 sudo pacman -S bridge-utils dnsmasq libvirt openbsd-netcat qemu-full vde2 virt-manager virt-viewer
-
-echo "Services"
-# ufw needs to be enable in kde's firewall settings page.
-sudo systemctl enable firewalld
-sudo systemctl start firewalld
-
-# Adding user to libvirt group and starting the service.
-sudo systemctl enable libvirtd
-sudo systemctl start libvirtd
-
-sudo usermod -aG libvirt $USER
-
-sudo systemctl restart libvirtd
-
-# Installing aur package manager.
-cd ~
 
 if ! command -v yay &>/dev/null; then
     echo "Installing yay"
     sudo git clone https://aur.archlinux.org/yay.git
     sudo chown -R $USER:$USER ./yay
     (cd yay && makepkg -si --noconfirm)
+else
+    echo "Yay already installed"
 fi
 
 echo "Updating yay packages"
@@ -50,5 +44,18 @@ sudo bash ./Orchis-kde/sddm/install.sh
 
 sudo git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git
 sudo bash ./Tela-circle-icon-theme/install.sh
+
+echo "Services"
+# ufw needs to be enable in kde's firewall settings page.
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
+
+# Adding user to libvirt group and starting the service.
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtd
+
+sudo usermod -aG libvirt $USER
+
+sudo systemctl restart libvirtd
 
 exit 0
