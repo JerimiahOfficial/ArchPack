@@ -27,14 +27,10 @@ sudo pacman -S git jre17-openjdk nodejs npm
 echo "Installing virtualization packages"
 sudo pacman -S bridge-utils dnsmasq libvirt openbsd-netcat qemu-full vde2 virt-manager virt-viewer
 
-if ! command -v yay &>/dev/null; then
-  echo "Installing yay"
-  sudo git clone https://aur.archlinux.org/yay.git
-  sudo chown -R $USER:$USER ./yay
-  (cd yay && makepkg -si --noconfirm)
-else
-  echo "Yay already installed"
-fi
+echo "Installing yay"
+sudo git clone https://aur.archlinux.org/yay.git
+sudo chown -R $USER:$USER ./yay
+(cd yay && makepkg -si --noconfirm)
 
 echo "Updating yay packages"
 yay -Syu --noconfirm
