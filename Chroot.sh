@@ -1,3 +1,6 @@
+# !/bin/bash
+set -e
+
 # Clear and print
 clear
 echo "=====| Chroot |====="
@@ -18,18 +21,15 @@ echo "jerimiah" >>/etc/hostname
 # initramfs
 mkinitcpio -P
 
-# Root password
-passwd root
-
 # Allow wheel group to use sudo
 sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
+# Root password
+echo "root" | passwd
+
 # Add user
 useradd jerimiah -m -G wheel,optical,disk,storage
-passwd jerimiah 1234
-
-# install microcode for intel
-pacman -S intel-ucode
+echo "1234" | passwd jerimiah
 
 # Bootloader
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB

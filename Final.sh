@@ -1,3 +1,6 @@
+# !/bin/bash
+set -e
+
 # Installing base system
 sudo pacman -Syu --noconfirm xorg-server xorg-xrandr dolphin plasma
 

@@ -1,4 +1,6 @@
-# !/bin/bash -e
+# !/bin/bash
+set -e
+
 # Sync the system clock
 timedatectl
 
@@ -25,7 +27,7 @@ swapon /dev/sda2
 mount --mkdir /dev/sda3 /mnt
 
 # Installing base system
-pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr sudo networkmanager vim git
+pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr sudo networkmanager vim git intel-ucode
 
 # Generating fstab
 genfstab -U /mnt >>/mnt/etc/fstab
