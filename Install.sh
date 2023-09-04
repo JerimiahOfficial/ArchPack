@@ -4,14 +4,15 @@ timedatectl
 
 # Creating partitions using parted
 # M.2
-parted /dev/sda mklabel gpt
-parted /dev/sda mkpart primary fat32 1MiB 512MiB
-parted /dev/sda mkpart primary linux-swap 512MiB 1GiB
-parted /dev/sda mkpart primary ext4 1GiB 100%
+parted -s /dev/sda \
+  mklabel gpt \
+  mkpart esp fat32 0% 300MiB \
+  mkpart primary linux-swap 300MiB 1GiB \
+  mkpart primary ext4 1GiB 100%
 
 # 4 TB
-# sudo parted /dev/sdb mklabel gpt
-# sudo parted /dev/sdb mkpart primary ext4 1MiB 100%
+# parted /dev/sdb mklabel gpt \
+#   mkpart primary ext4 0% 100%
 
 # Formatting partitions
 mkfs.fat -F32 /dev/sda1
@@ -22,6 +23,11 @@ mkfs.ext4 /dev/sda3
 mount --mkdir /dev/sda1 /mnt/boot
 swapon /dev/sda2
 mount --mkdir /dev/sda3 /mnt
+
+# Add permanent mounts to fstab
+echo "/dev/sda1 /boot vfat defaults 0 2" >>/mnt/etc/fstab
+echo "/dev/sda2 none swap defaults 0 2" >>/mnt/etc/fstab
+echo "/dev/sda3 / ext4 defaults 0 2" >>/mnt/etc/fstab
 
 # Installing base system
 pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr sudo networkmanager vim git
