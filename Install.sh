@@ -24,16 +24,16 @@ mount --mkdir /dev/sda1 /mnt/boot
 swapon /dev/sda2
 mount --mkdir /dev/sda3 /mnt
 
-# Add permanent mounts to fstab
-echo "/dev/sda1 /boot vfat defaults 0 2" >>/mnt/etc/fstab
-echo "/dev/sda2 none swap defaults 0 2" >>/mnt/etc/fstab
-echo "/dev/sda3 / ext4 defaults 0 2" >>/mnt/etc/fstab
-
 # Installing base system
 pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr sudo networkmanager vim git
 
 # Generating fstab
 genfstab -U /mnt >>/mnt/etc/fstab
+
+# Add permanent mounts to fstab
+echo "/dev/sda1 /boot vfat defaults 0 2" >>/mnt/etc/fstab
+echo "/dev/sda2 none swap defaults 0 2" >>/mnt/etc/fstab
+echo "/dev/sda3 / ext4 defaults 0 2" >>/mnt/etc/fstab
 
 # Chroot
 chroot /mnt bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh)
