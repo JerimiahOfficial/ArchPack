@@ -1,61 +1,69 @@
 # !/bin/bash -e
-echo "Checking for multilib"
-if ! grep -q "\[multilib\]" /etc/pacman.conf; then
-    echo "Steam requires Multilib which is not enabled."
-    exit 1
-fi
+# ArchPack
+# This is a simple script to install Arch Linux for my personal computer.
+# It will not work on all systems, it installs all the packages I use.
 
-cd ~
+# Sync the system clock
+timedatectl
 
-echo "Updating pacman packages"
-sudo pacman -Syu --noconfirm
+# Creating partitions using parted
+# M.2
+sudo parted /dev/sda mklabel gpt
+sudo parted /dev/sda mkpart primary fat32 1MiB 512MiB
+sudo parted /dev/sda mkpart primary linux-swap 512MiB 1GiB
+sudo parted /dev/sda mkpart primary ext4 1GiB 100%
 
-echo "Installing system packages"
-sudo pacman -S firewalld lib32-nvidia-utils nvidia-settings nvidia-utils xdg-desktop-portal
+# 4 TB
+# FileSystem: ext4
+# MountPoint: /mnt
+# Type: Linux
+# Size: 100%
+# sudo parted /dev/sdb mklabel gpt
+# sudo parted /dev/sdb mkpart primary ext4 1MiB 100%
 
-echo "Installing applications"
-sudo pacman -S bitwarden discord firefox obs-studio steam kdeconnect 
+# Formatting partitions
+mkfs.fat -F32 /dev/sda1
+mkswap /dev/sda2
+mkfs.ext4 /dev/sda3
 
-echo "Installing developement packages"
-sudo pacman -S git jre17-openjdk nodejs npm
+# Mounting partitions
+mount --mkdir /dev/sda1 /mnt/boot
+swapon /dev/sda2
+mount --mkdir /dev/sda3 /mnt
 
-echo "Installing virtualization packages"
-sudo pacman -S bridge-utils dnsmasq libvirt openbsd-netcat qemu-full vde2 virt-manager virt-viewer
+# Installing base system
+pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr sudo networkmanager vim git
 
-if ! command -v yay &>/dev/null; then
-    echo "Installing yay"
-    sudo git clone https://aur.archlinux.org/yay.git
-    sudo chown -R $USER:$USER ./yay
-    (cd yay && makepkg -si --noconfirm)
-else
-    echo "Yay already installed"
-fi
+# Generating fstab
+genfstab -U /mnt >>/mnt/etc/fstab
 
-echo "Updating yay packages"
-yay -Syu --noconfirm
+# Chroot
+arch-chroot /mnt
 
-echo "Installing yay packages"
-yay -S github-desktop-bin vscodium-bin minecraft-launcher
+# Timezone
+ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
+hwclock --systohc
 
-echo "Installing themes"
-sudo git clone https://github.com/vinceliuice/Orchis-kde.git
-sudo bash ./Orchis-kde/install.sh
-sudo bash ./Orchis-kde/sddm/install.sh
+# Localization
+locale-gen
+echo "LANG=en_US.UTF-8" >>/etc/locale.conf
+echo "KEYMAP=de-latin1" >>/etc/vconsole.conf
 
-sudo git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git
-sudo bash ./Tela-circle-icon-theme/install.sh
+# Network configuration
+echo "jerimiah" >>/etc/hostname
 
-echo "Services"
-# ufw needs to be enable in kde's firewall settings page.
-sudo systemctl enable firewalld
-sudo systemctl start firewalld
+# initramfs
+mkinitcpio -P
 
-# Adding user to libvirt group and starting the service.
-sudo systemctl enable libvirtd
-sudo systemctl start libvirtd
+# Root password
+passwd root
 
-sudo usermod -aG libvirt $USER
+# Add user
+useradd jerimiah -m -G wheel,optical,disk,storage
 
-sudo systemctl restart libvirtd
+# Bootloader
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
 
-exit 0
+# Reboot
+reboot
