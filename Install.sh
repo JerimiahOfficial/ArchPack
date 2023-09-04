@@ -33,7 +33,7 @@ genfstab -U /mnt >>/mnt/etc/fstab
 chroot /mnt bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh)
 
 # unmount all
-umount -a
+umount -R /mnt
 
 # Reboot
 reboot
