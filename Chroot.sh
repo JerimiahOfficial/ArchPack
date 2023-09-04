@@ -1,3 +1,7 @@
+# Clear and print
+clear
+echo "=====| Chroot |====="
+
 # Timezone
 ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
 hwclock --systohc
@@ -21,6 +25,7 @@ sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
 # Add user
 useradd jerimiah -m -G wheel,optical,disk,storage
+passwd jerimiah 1234
 
 # Bootloader
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
