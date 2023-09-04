@@ -1,7 +1,7 @@
 # !/bin/bash
 set -e
 
-# Installing base system
+# Installing display manager and desktop environment
 sudo pacman -Syu --noconfirm xorg-server xorg-xrandr dolphin plasma
 
 # Enable sddm
@@ -52,9 +52,7 @@ sudo systemctl enable firewalld
 sudo systemctl start firewalld
 
 # Adding user to libvirt group and starting the service.
-sudo systemctl enable libvirtd
-sudo systemctl start libvirtd
-
 sudo usermod -aG libvirt $USER
 
-sudo systemctl restart libvirtd
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtd
