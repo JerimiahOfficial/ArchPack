@@ -1,8 +1,4 @@
 # !/bin/bash -e
-# ArchPack
-# This is a simple script to install Arch Linux for my personal computer.
-# It will not work on all systems, it installs all the packages I use.
-
 # Sync the system clock
 timedatectl
 
@@ -14,10 +10,6 @@ sudo parted /dev/sda mkpart primary linux-swap 512MiB 1GiB
 sudo parted /dev/sda mkpart primary ext4 1GiB 100%
 
 # 4 TB
-# FileSystem: ext4
-# MountPoint: /mnt
-# Type: Linux
-# Size: 100%
 # sudo parted /dev/sdb mklabel gpt
 # sudo parted /dev/sdb mkpart primary ext4 1MiB 100%
 
@@ -57,6 +49,9 @@ mkinitcpio -P
 
 # Root password
 passwd root
+
+# Allow wheel group to use sudo
+sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
 # Add user
 useradd jerimiah -m -G wheel,optical,disk,storage
