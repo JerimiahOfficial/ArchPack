@@ -4,10 +4,10 @@ timedatectl
 
 # Creating partitions using parted
 # M.2
-sudo parted /dev/sda mklabel gpt
-sudo parted /dev/sda mkpart primary fat32 1MiB 512MiB
-sudo parted /dev/sda mkpart primary linux-swap 512MiB 1GiB
-sudo parted /dev/sda mkpart primary ext4 1GiB 100%
+parted /dev/sda mklabel gpt
+parted /dev/sda mkpart primary fat32 1MiB 512MiB
+parted /dev/sda mkpart primary linux-swap 512MiB 1GiB
+parted /dev/sda mkpart primary ext4 1GiB 100%
 
 # 4 TB
 # sudo parted /dev/sdb mklabel gpt
@@ -30,35 +30,10 @@ pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr sudo networkm
 genfstab -U /mnt >>/mnt/etc/fstab
 
 # Chroot
-arch-chroot /mnt
+chroot /mnt bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh)
 
-# Timezone
-ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
-hwclock --systohc
-
-# Localization
-locale-gen
-echo "LANG=en_US.UTF-8" >>/etc/locale.conf
-echo "KEYMAP=de-latin1" >>/etc/vconsole.conf
-
-# Network configuration
-echo "jerimiah" >>/etc/hostname
-
-# initramfs
-mkinitcpio -P
-
-# Root password
-passwd root
-
-# Allow wheel group to use sudo
-sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
-
-# Add user
-useradd jerimiah -m -G wheel,optical,disk,storage
-
-# Bootloader
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
+# unmount all
+umount -a
 
 # Reboot
 reboot
