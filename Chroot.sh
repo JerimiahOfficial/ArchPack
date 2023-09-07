@@ -10,16 +10,13 @@ ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
 hwclock --systohc
 
 # Localization
-# sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
-# Set env variables
-# export LANGUAGE=en_US.UTF-8
-# export LANG=en_US.UTF-8
-# export LC_ALL=en_US.UTF-8
-# LANGUAGE=en_US.UTF-8
-# LANG=en_US.UTF-8
-# LC_ALL=en_US.UTF-8
-locale-gen en_US.UTF-8
-loadkeys us
+echo "en_US.UTF-8 UTF-8" >/etc/locale.gen
+locale-gen
+echo "LANGUAGE=en_US.UTF-8" >/etc/locale.conf
+echo "LANG=en_US.UTF-8" >>/etc/locale.conf
+echo "LC_ALL=en_US.UTF-8" >>/etc/locale.conf
+
+echo "KEYMAP=us" >>/etc/vconsole.conf
 
 # Network configuration
 echo "jerimiah" >>/etc/hostname
