@@ -7,9 +7,6 @@ sudo pacman -Syu --noconfirm xorg-server xorg-xrandr dolphin konsole plasma
 # Enable sddm
 sudo systemctl enable sddm
 
-# Enable multilib
-sudo sed -i '/\[multilib\]/aInclude = /etc/pacman.d/mirrorlist' /etc/pacman.conf
-
 # Updating pacman packages
 sudo pacman -Syu --noconfirm
 

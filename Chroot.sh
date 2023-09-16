@@ -19,7 +19,7 @@ echo "archlinux" >>/etc/hostname
 systemctl enable fstrim.timer
 
 # Enable multilib
-sed -i '45,46 s/^#//' /etc/pacman.conf
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy
 
 # initramfs
