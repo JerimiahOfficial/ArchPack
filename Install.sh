@@ -30,7 +30,7 @@ mount --mkdir /dev/sda3 /mnt
 pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr sudo networkmanager vim git intel-ucode
 
 # Generating fstab
-genfstab -U /mnt >>/mnt/etc/fstab
+genfstab -U -p /mnt >>/mnt/etc/fstab
 
 # Add permanent mounts to fstab
 echo "/dev/sda1 /boot vfat defaults 0 2" >>/mnt/etc/fstab
