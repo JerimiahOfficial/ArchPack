@@ -1,17 +1,22 @@
-# !/bin/bash
-set -e
+# !/bin/bash -e
 
 # Timezone
 ln -s /usr/share/zoneinfo/Canada/Eastern >/etc/localtime
 hwclock --systohc --utc
 
 # Localization
-echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
+localectl set-locale LANGUAGE=en_US.UTF-8
+localectl set-locale LC_ALL=en_US.UTF-8
+localectl set-locale LANG=en_US.UTF-8
+localectl set-locale en_US.UTF-8
+
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LC_MESSAGES=en_US.UTF-8
+
 locale-gen
-echo "LANGUAGES=en_US.UTF-8" >>/etc/locale.conf
-echo "LC_ALL=en_US.UTF-8" >>/etc/locale.conf
-echo "LC_MESSAGES=en_US.UTF-8" >>/etc/locale.conf
-echo "LANG=en_US.UTF-8" >>/etc/locale.conf
+
 # echo "KEYMAP=us" >>/etc/vconsole.conf
 
 # Network configuration
