@@ -1,4 +1,4 @@
-# !/bin/bash
+# !/bin/bash -e
 
 # Timezone
 ln -s /usr/share/zoneinfo/Canada/Eastern >/etc/localtime

@@ -1,4 +1,4 @@
-# !/bin/bash
+# !/bin/bash -e
 
 # Sync the system clock
 timedatectl
@@ -43,4 +43,6 @@ chroot /mnt bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/Ar
 umount -R /mnt
 
 # Reboot
-reboot
+echo "########################################"
+echo "Please reboot"
+echo "########################################"
