@@ -17,6 +17,11 @@ export LC_MESSAGES=en_US.UTF-8
 
 locale-gen
 
+echo "######################"
+echo "Localization:"
+locale -a
+echo "######################"
+
 # echo "KEYMAP=us" >>/etc/vconsole.conf
 
 # Network configuration
