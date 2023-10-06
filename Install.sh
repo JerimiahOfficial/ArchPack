@@ -1,4 +1,4 @@
-# !/bin/bash -e
+# !/bin/bash
 
 # Sync the system clock
 timedatectl
