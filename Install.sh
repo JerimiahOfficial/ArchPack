@@ -40,9 +40,10 @@ echo "/dev/sda3 / ext4 defaults 0 2" >>/mnt/etc/fstab
 chroot /mnt bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh)
 
 # unmount all
-umount -R /mnt
+# umount -R /mnt
 
 # Reboot
 echo "########################################"
 echo "Please reboot"
+echo "umount -R /mnt"
 echo "########################################"
