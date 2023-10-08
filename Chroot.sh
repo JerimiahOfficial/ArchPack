@@ -8,28 +8,26 @@ hwclock --systohc --utc
 echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
 echo "KEYMAP=us" >>/etc/vconsole.conf
 
-localectl set-locale LANGUAGE=en_US.UTF-8
-localectl set-locale LC_ALL=en_US.UTF-8
-localectl set-locale LANG=en_US.UTF-8
-localectl set-locale en_US.UTF-8
+# localectl set-locale LANGUAGE=en_US.UTF-8
+# localectl set-locale LC_ALL=en_US.UTF-8
+# localectl set-locale LANG=en_US.UTF-8
+# localectl set-locale en_US.UTF-8
 
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-export LC_MESSAGES=en_US.UTF-8
+# export LANG=en_US.UTF-8
+# export LANGUAGE=en_US.UTF-8
+# export LC_ALL=en_US.UTF-8
+# export LC_MESSAGES=en_US.UTF-8
 
 locale-gen
 
-cat /etc/locale.gen >>/mnt/etc/locale.gen
-cat /etc/locale.conf >>/mnt/etc/locale.conf
-cat /etc/vconsole.conf >>/mnt/etc/vconsole.conf
+# cat /etc/locale.gen >>/mnt/etc/locale.gen
+# cat /etc/locale.conf >>/mnt/etc/locale.conf
+# cat /etc/vconsole.conf >>/mnt/etc/vconsole.conf
 
 echo "######################"
 echo "Localization:"
 locale -a
 echo "######################"
-
-# echo "KEYMAP=us" >>/etc/vconsole.conf
 
 # Network configuration
 echo "archlinux" >>/etc/hostname
