@@ -7,9 +7,10 @@ timedatectl
 # M.2
 parted -s /dev/sda \
   mklabel gpt \
-  mkpart esp fat32 0% 300MiB \
-  mkpart primary linux-swap 300MiB 1GiB \
-  mkpart primary ext4 1GiB 100%
+  mkpart "EFI system partition" fat32 1MiB 301MiB \
+  set 1 esp on \
+  mkpart "swap partition" linux-swap 301MiB 4.3GiB \
+  mkpart "root partition" ext4 4.3GiB 100%
 
 # 4 TB
 # parted /dev/sdb mklabel gpt \
