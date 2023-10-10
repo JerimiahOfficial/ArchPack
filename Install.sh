@@ -1,5 +1,9 @@
 # !/bin/bash -e
 
+# Download chroot script for later
+curl -O https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh
+chmod +x Chroot.sh
+
 # Sync the system clock
 timedatectl
 
@@ -38,7 +42,7 @@ pacstrap -K /mnt base linux linux-firmware
 genfstab -U -p /mnt >>/mnt/etc/fstab
 
 # Chroot
-arch-chroot /mnt bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh)
+arch-chroot /mnt bash Chroot.sh
 
 # unmount all
 # umount -R /mnt
