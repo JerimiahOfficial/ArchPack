@@ -7,10 +7,10 @@ timedatectl
 # M.2
 parted -s /dev/sda \
   mklabel gpt \
-  mkpart ESP fat32 0% 512MiB \
+  mkpart ESP fat32 0% 513MiB \
   set 1 boot on \
   set 1 esp on \
-  mkpart primary linux-swap 512MiB 65GiB \
+  mkpart primary linux-swap 513MiB 65GiB \
   mkpart primary ext4 65GiB 100%
 
 # 4 TB
@@ -27,16 +27,15 @@ mount --mkdir /dev/sda1 /mnt/boot
 swapon /dev/sda2
 mount --mkdir /dev/sda3 /mnt
 
+# Get the best mirrors
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup >/etc/pacman.d/mirrorlist
+
 # Installing base system
-pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr sudo networkmanager vim git intel-ucode
+pacstrap -K /mnt base linux linux-firmware
 
 # Generating fstab
 genfstab -U -p /mnt >>/mnt/etc/fstab
-
-# Add permanent mounts to fstab
-echo "/dev/sda1 /boot vfat defaults 0 2" >>/mnt/etc/fstab
-echo "/dev/sda2 none swap defaults 0 2" >>/mnt/etc/fstab
-echo "/dev/sda3 / ext4 defaults 0 2" >>/mnt/etc/fstab
 
 # Chroot
 arch-chroot /mnt bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh)
