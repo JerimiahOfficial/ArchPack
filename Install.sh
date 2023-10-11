@@ -28,12 +28,12 @@ swapon /dev/sda2
 mount --mkdir /dev/sda3 /mnt
 
 # Get mirror list
-curl -s 'https://archlinux.org/mirrorlist/?country=CA&protocol=http&protocol=https&ip_version=4&ip_version=6' >/etc/pacman.d/mirrorlist
+curl -s 'https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6' >/etc/pacman.d/mirrorlist
 awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >>/etc/pacman.d/mirrorlist
 pacman -Syy
 
 # Installing base system
-pacstrap -K /mnt base linux linux-firmware
+pacstrap -K /mnt base linux linux-firmware grub efibootmgr sudo networkmanager vim git intel-ucode
 
 # Generating fstab
 genfstab -U -p /mnt >>/mnt/etc/fstab
