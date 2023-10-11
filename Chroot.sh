@@ -11,19 +11,11 @@ echo "KEYMAP=us" >>/etc/vconsole.conf
 
 locale-gen
 
-# cat /etc/locale.gen >>/mnt/etc/locale.gen
-# cat /etc/locale.conf >>/mnt/etc/locale.conf
-# cat /etc/vconsole.conf >>/mnt/etc/vconsole.conf
-
-echo "######################"
-echo "Localization:"
-locale -a
-echo "######################"
-
 # Network configuration
 echo "archlinux" >>/etc/hostname
 
-# Enable trim support
+# Enable services
+systemctl enable NetworkManager
 systemctl enable fstrim.timer
 
 # Enable multilib
@@ -40,11 +32,13 @@ sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 echo "root" | passwd
 
 # Add user
-useradd -m -g users -G wheel,storage,power -s /bin/bash jerimiah
-echo "1234" | passwd jerimiah
+useradd -m -g users -G wheel,storage,power -s /bin/bash -p '1234' jerimiah
 
 # Bootloader
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 
 # make grub config
 grub-mkconfig -o /boot/grub/grub.cfg
+
+# Exit chroot
+exit

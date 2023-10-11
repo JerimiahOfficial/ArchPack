@@ -30,6 +30,7 @@ mount --mkdir /dev/sda3 /mnt
 # Get mirror list
 curl -s 'https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6' >/etc/pacman.d/mirrorlist
 awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >>/etc/pacman.d/mirrorlist
+cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 pacman -Syy
 
 # Installing base system
@@ -46,7 +47,7 @@ chmod +x /mnt/Chroot.sh
 arch-chroot /mnt /bin/bash /Chroot.sh
 
 # unmount all
-# umount -R /mnt
+umount -a
 
 # Reboot
 echo "########################################"
