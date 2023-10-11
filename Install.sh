@@ -42,7 +42,8 @@ pacstrap -K /mnt base linux linux-firmware
 genfstab -U -p /mnt >>/mnt/etc/fstab
 
 # Chroot
-arch-chroot /mnt /bin/bash /Chroot.sh
+arch-chroot /mnt
+./Chroot.sh
 
 # unmount all
 # umount -R /mnt
