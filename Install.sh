@@ -29,7 +29,7 @@ mount --mkdir /dev/sda3 /mnt
 
 # Get mirror list
 curl -s 'https://archlinux.org/mirrorlist/?country=CA&protocol=http&protocol=https&ip_version=4&ip_version=6' >/etc/pacman.d/mirrorlist
-awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >/etc/pacman.d/mirrorlist
+awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >>/etc/pacman.d/mirrorlist
 pacman -Syy
 
 # Installing base system
