@@ -8,7 +8,6 @@ timedatectl
 parted -s /dev/sda \
   mklabel gpt \
   mkpart ESP fat32 0% 513MiB \
-  set 1 boot on \
   set 1 esp on \
   mkpart primary linux-swap 513MiB 65GiB \
   mkpart primary ext4 65GiB 100%
