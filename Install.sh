@@ -16,7 +16,7 @@ parted -s /dev/sda \
 # parted /dev/sdb mklabel gpt \
 #   mkpart primary ext4 0% 100%
 
-# Formatting partitions
+# Creating filesystems
 mkfs.fat -F32 /dev/sda1
 mkswap /dev/sda2
 mkfs.ext4 /dev/sda3
