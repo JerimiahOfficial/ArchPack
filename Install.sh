@@ -51,5 +51,4 @@ umount -a
 # Reboot
 echo "########################################"
 echo "Please reboot"
-echo "umount -R /mnt"
 echo "########################################"
