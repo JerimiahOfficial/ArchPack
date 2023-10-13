@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 # Variables
-mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
 chrootscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh"
 
 # Sync the system clock

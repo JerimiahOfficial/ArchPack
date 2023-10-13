@@ -1,14 +1,15 @@
 #!/bin/bash -e
 
 # Timezone
-timedatectl set-timezone America/Toronto
+ln -sf /usr/share/zoneinfo/Canada/Eastern >/etc/localtime
+hwclock --systohc --utc
 
 # Localization
 echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
 
 locale-gen
 
-echo "LANG=en_US.UTF-8" >>/etc/locale.conf
+echo "LANG=en_US.UTF-8" >/etc/locale.conf
 export LANG=en_US.UTF-8
 
 # localectl set-locale LANGUAGE=en_US.UTF-8
@@ -23,7 +24,7 @@ echo "archlinux" >>/etc/hostname
 systemctl enable fstrim.timer
 
 # Enable multilib
-awk '/^#\[multilib\]$/{print; print "Include = /etc/pacman.d/mirrorlist"}1' /etc/pacman.conf >temp && mv temp /etc/pacman.conf
+sed -i '/^\s*#\s*\[multilib\]/,/^#\s*Include = \/etc\/pacman.d\/mirrorlist/ s/#\s*//' /etc/pacman.conf
 pacman -Syu
 pacman -S grub efibootmgr sudo
 
@@ -31,7 +32,7 @@ pacman -S grub efibootmgr sudo
 mkinitcpio -P
 
 # Allow wheel group to use sudo
-awk '/^# %wheel ALL=(ALL) ALL/{print; print "wheel ALL=(ALL) ALL"}1' /etc/sudoers >temp && mv temp /etc/sudoers
+sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
 # Add user
 useradd -m -g users -G wheel,storage,power -s /bin/bash jerimiah
