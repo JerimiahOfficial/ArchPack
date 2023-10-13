@@ -32,12 +32,12 @@ mkdir -p /mnt/boot/efi
 mount --mkdir /dev/sda1 /mnt/boot/efi
 
 # Get mirror list
-curl -s $mirrorlist >/etc/pacman.d/mirrorlist
-awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >temp && mv temp /etc/pacman.d/mirrorlist
-pacman -Syy
+pacman -Sy
+pacman -S --noconfirm pacman-contrib
+rankmirrors -n 6 /etc/pacman.d/mirrorlist >temp && mv temp /etc/pacman.d/mirrorlist
 
 # Installing base system
-pacstrap -K /mnt base linux linux-firmware
+pacstrap -K /mnt base base-devel linux linux-headers
 
 # Generating fstab
 genfstab -U -p /mnt >>/mnt/etc/fstab

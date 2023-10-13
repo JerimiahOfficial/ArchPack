@@ -23,7 +23,7 @@ echo "archlinux" >>/etc/hostname
 systemctl enable fstrim.timer
 
 # Enable multilib
-sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+awk '/^#\[multilib\]$/{print; print "Include = /etc/pacman.d/mirrorlist"}1' /etc/pacman.conf >temp && mv temp /etc/pacman.conf
 pacman -Syu
 pacman -S grub efibootmgr sudo
 
@@ -34,7 +34,7 @@ mkinitcpio -P
 awk '/^# %wheel ALL=(ALL) ALL/{print; print "wheel ALL=(ALL) ALL"}1' /etc/sudoers >temp && mv temp /etc/sudoers
 
 # Add user
-useradd -m -g users -G wheel,storage,power -s /bin/bash -p '1234' jerimiah
+useradd -m -g users -G wheel,storage,power -s /bin/bash jerimiah
 
 # Bootloader
 grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
@@ -53,8 +53,10 @@ systemctl enable NetworkManager.service
 echo "#########################################"
 echo "Installation complete"
 echo ""
-echo "1. Set root a password"
-echo "2. Install extra packages"
+echo "1. Enter arch-chroot /mnt"
+echo "2. Set root a password"
+echo "3. Set user a password"
+echo "3. Install extra packages"
 echo ""
 echo "Reboot to complete installation"
 echo "#########################################"
