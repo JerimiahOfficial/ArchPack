@@ -26,7 +26,7 @@ systemctl enable fstrim.timer
 # Enable multilib
 sed -i '/^\s*#\s*\[multilib\]/,/^#\s*Include = \/etc\/pacman.d\/mirrorlist/ s/#\s*//' /etc/pacman.conf
 pacman -Syu
-pacman -S grub efibootmgr sudo
+pacman -S --noconfirm grub efibootmgr sudo
 
 # initramfs
 mkinitcpio -P
@@ -44,11 +44,12 @@ grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Install desktop environment
-pacman -S --noconfirm xorg plasma plasma-wayland-session dolphin konsole
+pacman -S --noconfirm xorg plasma plasma-wayland-session konsole networkmanager ufw dolphin lib32-nvidia-utils nvidia-settings nvidia-utils
 
 # Enable services
 systemctl enable sddm.service
 systemctl enable NetworkManager.service
+systemctl enable ufw.service
 
 # Prompt user to reboot
 echo "#########################################"
@@ -57,7 +58,7 @@ echo ""
 echo "1. Enter arch-chroot /mnt"
 echo "2. Set root a password"
 echo "3. Set user a password"
-echo "3. Install extra packages"
+echo "4. unmount -a"
 echo ""
 echo "Reboot to complete installation"
 echo "#########################################"
