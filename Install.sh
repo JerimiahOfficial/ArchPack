@@ -2,6 +2,7 @@
 
 # Variables
 chrootscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh"
+finalscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Final.sh"
 
 # Sync the system clock
 timedatectl
@@ -47,3 +48,10 @@ chmod +x /mnt/Chroot.sh
 
 # Chroot
 arch-chroot /mnt /bin/bash /Chroot.sh
+
+# Download final script
+curl -s $finalscript >/mnt/Final.sh
+chmod +x /mnt/Final.sh
+
+# Delete chroot script
+rm /mnt/Chroot.sh

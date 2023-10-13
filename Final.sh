@@ -3,17 +3,14 @@
 # Updating pacman packages
 sudo pacman -Syu --noconfirm
 
-# Installing system packages
-sudo pacman -S firefox ufw lib32-nvidia-utils nvidia-settings nvidia-utils xdg-desktop-portal
-
 # Installing applications
-sudo pacman -S bitwarden discord obs-studio steam
+sudo pacman -S firefox bitwarden discord obs-studio steam
 
 # Installing developement packages
 sudo pacman -S git jre17-openjdk nodejs npm
 
 # Installing virtualization packages
-sudo pacman -S bridge-utils dnsmasq libvirt openbsd-netcat qemu-full vde2 virt-manager virt-viewer
+# sudo pacman -S bridge-utils dnsmasq libvirt openbsd-netcat qemu-full vde2 virt-manager virt-viewer
 
 # Change directory to home directory
 cd ~
@@ -37,13 +34,9 @@ sudo bash ./Orchis-kde/sddm/install.sh
 sudo git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git
 sudo bash ./Tela-circle-icon-theme/install.sh
 
-# Services
-# ufw needs to be enable in kde's firewall settings page.
-sudo systemctl enable firewalld
-sudo systemctl start firewalld
-
 # Adding user to libvirt group and starting the service.
-sudo usermod -aG libvirt $USER
+# sudo usermod -aG libvirt $USER
 
-sudo systemctl enable libvirtd
-sudo systemctl start libvirtd
+# Services
+# sudo systemctl enable libvirtd
+# sudo systemctl start libvirtd
