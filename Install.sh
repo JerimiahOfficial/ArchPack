@@ -17,19 +17,20 @@ parted -s /dev/sda \
 #   mkpart primary ext4 0% 100%
 
 # Creating filesystems
-mkfs.fat -F32 /dev/sda1
-mkswap /dev/sda2
 mkfs.ext4 /dev/sda3
+mkswap /dev/sda2
+mkfs.fat -F32 /dev/sda1
 
 # Mounting partitions
-mount --mkdir /dev/sda1 /mnt/boot
+mount /dev/sda3 /mnt
 swapon /dev/sda2
-mount --mkdir /dev/sda3 /mnt
+mkdir /mnt/boot
+mount --mkdir /dev/sda1 /mnt/boot
 
 # Get mirror list
 curl -s 'https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6' >/etc/pacman.d/mirrorlist
 awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >>/etc/pacman.d/mirrorlist
-cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
+cat /etc/pacman.d/mirrorlist >>/mnt/etc/pacman.d/mirrorlist
 pacman -Syy
 
 # Installing base system
