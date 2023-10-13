@@ -28,9 +28,6 @@ mkinitcpio -P
 # Allow wheel group to use sudo
 sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
-# Root password
-echo "root" | passwd
-
 # Add user
 useradd -m -g users -G wheel,storage,power -s /bin/bash -p '1234' jerimiah
 

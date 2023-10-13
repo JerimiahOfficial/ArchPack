@@ -45,11 +45,3 @@ chmod +x /mnt/Chroot.sh
 
 # Chroot
 arch-chroot /mnt /bin/bash /Chroot.sh
-
-# unmount all
-umount -a
-
-# Reboot
-echo "########################################"
-echo "Please reboot"
-echo "########################################"
