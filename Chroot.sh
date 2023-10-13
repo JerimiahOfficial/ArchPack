@@ -32,7 +32,7 @@ pacman -S --noconfirm grub efibootmgr sudo
 mkinitcpio -P
 
 # Allow wheel group to use sudo
-sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 # Add user
 useradd -m -g users -G wheel,storage,power -s /bin/bash jerimiah
