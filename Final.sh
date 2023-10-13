@@ -1,4 +1,4 @@
-# !/bin/bash -e
+#!/bin/bash -e
 
 # Installing display manager and desktop environment
 sudo pacman -Syu --noconfirm xorg-server xorg-xrandr dolphin konsole plasma

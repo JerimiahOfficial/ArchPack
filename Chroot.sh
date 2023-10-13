@@ -1,15 +1,20 @@
-# !/bin/bash -e
+#!/bin/bash -e
 
 # Timezone
-ln -s /usr/share/zoneinfo/Canada/Eastern >/etc/localtime
-hwclock --systohc --utc
+timedatectl set-timezone America/Toronto
 
 # Localization
 echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
-echo "LANG=en_US.UTF-8" >>/etc/locale.conf
-echo "KEYMAP=us" >>/etc/vconsole.conf
 
 locale-gen
+
+echo "LANG=en_US.UTF-8" >>/etc/locale.conf
+export LANG=en_US.UTF-8
+
+# localectl set-locale LANGUAGE=en_US.UTF-8
+# localectl set-locale LC_ALL=en_US.UTF-8
+# localectl set-locale LANG=en_US.UTF-8
+# localectl set-locale en_US.UTF-8
 
 # Network configuration
 echo "archlinux" >>/etc/hostname
@@ -20,7 +25,8 @@ systemctl enable fstrim.timer
 
 # Enable multilib
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
-pacman -Sy
+pacman -Syu
+pacman -S grub efibootmgr sudo
 
 # initramfs
 mkinitcpio -P
@@ -32,7 +38,7 @@ sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 useradd -m -g users -G wheel,storage,power -s /bin/bash -p '1234' jerimiah
 
 # Bootloader
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
 
 # make grub config
 grub-mkconfig -o /boot/grub/grub.cfg

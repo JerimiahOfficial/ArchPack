@@ -1,4 +1,4 @@
-# !/bin/bash -e
+#!/bin/bash -e
 
 # Sync the system clock
 timedatectl
@@ -24,17 +24,18 @@ mkfs.fat -F32 /dev/sda1
 # Mounting partitions
 mount /dev/sda3 /mnt
 swapon /dev/sda2
-mkdir /mnt/boot
-mount --mkdir /dev/sda1 /mnt/boot
+mkdir /mnt/boot/efi
+mount --mkdir /dev/sda1 /mnt/boot/efi
 
 # Get mirror list
 curl -s 'https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6' >/etc/pacman.d/mirrorlist
-awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >>/etc/pacman.d/mirrorlist
+awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >/etc/pacman.d/mirrorlist.tmp
+cat /etc/pacman.d/mirrorlist.tmp >/etc/pacman.d/mirrorlist
 cat /etc/pacman.d/mirrorlist >>/mnt/etc/pacman.d/mirrorlist
 pacman -Syy
 
 # Installing base system
-pacstrap -K /mnt base linux linux-firmware grub efibootmgr sudo networkmanager vim git intel-ucode
+pacstrap -K /mnt base linux linux-firmware
 
 # Generating fstab
 genfstab -U -p /mnt >>/mnt/etc/fstab
