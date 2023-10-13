@@ -19,8 +19,7 @@ export LANG=en_US.UTF-8
 # Network configuration
 echo "archlinux" >>/etc/hostname
 
-# Enable services
-systemctl enable NetworkManager
+# Enable fstrim
 systemctl enable fstrim.timer
 
 # Enable multilib
@@ -42,6 +41,13 @@ grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
 
 # make grub config
 grub-mkconfig -o /boot/grub/grub.cfg
+
+# Install desktop environment
+pacman -S --noconfirm xorg plasma plasma-wayland-session dolphin konsole
+
+# Enable services
+systemctl enable sddm.service
+systemctl enable NetworkManager.service
 
 # Exit chroot
 exit

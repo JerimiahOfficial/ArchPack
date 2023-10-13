@@ -30,7 +30,7 @@ mount --mkdir /dev/sda1 /mnt/boot/efi
 # Get mirror list
 curl -s 'https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6' >/etc/pacman.d/mirrorlist
 awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >/etc/pacman.d/mirrorlist.tmp
-cat /etc/pacman.d/mirrorlist.tmp >/etc/pacman.d/mirrorlist
+mv /etc/pacman.d/mirrorlist.tmp /etc/pacman.d/mirrorlist
 cat /etc/pacman.d/mirrorlist >>/mnt/etc/pacman.d/mirrorlist
 pacman -Syy
 

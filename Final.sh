@@ -1,16 +1,10 @@
 #!/bin/bash -e
 
-# Installing display manager and desktop environment
-sudo pacman -Syu --noconfirm xorg-server xorg-xrandr dolphin konsole plasma
-
-# Enable sddm
-sudo systemctl enable sddm
-
 # Updating pacman packages
 sudo pacman -Syu --noconfirm
 
 # Installing system packages
-sudo pacman -S firefox firewalld lib32-nvidia-utils nvidia-settings nvidia-utils xdg-desktop-portal
+sudo pacman -S firefox ufw lib32-nvidia-utils nvidia-settings nvidia-utils xdg-desktop-portal
 
 # Installing applications
 sudo pacman -S bitwarden discord obs-studio steam
