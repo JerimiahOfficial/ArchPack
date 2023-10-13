@@ -31,7 +31,7 @@ pacman -S grub efibootmgr sudo
 mkinitcpio -P
 
 # Allow wheel group to use sudo
-sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+awk '/^# %wheel ALL=(ALL) ALL/{print; print "wheel ALL=(ALL) ALL"}1' /etc/sudoers >temp && mv temp /etc/sudoers
 
 # Add user
 useradd -m -g users -G wheel,storage,power -s /bin/bash -p '1234' jerimiah
@@ -49,5 +49,12 @@ pacman -S --noconfirm xorg plasma plasma-wayland-session dolphin konsole
 systemctl enable sddm.service
 systemctl enable NetworkManager.service
 
-# Exit chroot
-exit
+# Prompt user to reboot
+echo "#########################################"
+echo "Installation complete"
+echo ""
+echo "1. Set root a password"
+echo "2. Install extra packages"
+echo ""
+echo "Reboot to complete installation"
+echo "#########################################"

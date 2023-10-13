@@ -24,7 +24,7 @@ mkfs.fat -F32 /dev/sda1
 # Mounting partitions
 mount /dev/sda3 /mnt
 swapon /dev/sda2
-mkdir /mnt/boot/efi
+mkdir -p /mnt/boot/efi
 mount --mkdir /dev/sda1 /mnt/boot/efi
 
 # Get mirror list
