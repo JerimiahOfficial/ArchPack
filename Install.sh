@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+# Variables
+mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
+chrootscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh"
+
 # Sync the system clock
 timedatectl
 
@@ -28,10 +32,8 @@ mkdir -p /mnt/boot/efi
 mount --mkdir /dev/sda1 /mnt/boot/efi
 
 # Get mirror list
-curl -s 'https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6' >/etc/pacman.d/mirrorlist
-awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >/etc/pacman.d/mirrorlist.tmp
-mv /etc/pacman.d/mirrorlist.tmp /etc/pacman.d/mirrorlist
-cat /etc/pacman.d/mirrorlist >>/mnt/etc/pacman.d/mirrorlist
+curl -s $mirrorlist >/etc/pacman.d/mirrorlist
+awk 'NR<=12 {sub(/^#Server/, "Server")} 1' /etc/pacman.d/mirrorlist >temp && mv temp /etc/pacman.d/mirrorlist
 pacman -Syy
 
 # Installing base system
@@ -41,7 +43,7 @@ pacstrap -K /mnt base linux linux-firmware
 genfstab -U -p /mnt >>/mnt/etc/fstab
 
 # Download chroot script
-curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh >/mnt/Chroot.sh
+curl -s $chrootscript >/mnt/Chroot.sh
 chmod +x /mnt/Chroot.sh
 
 # Chroot
