@@ -17,7 +17,7 @@ cd ~
 
 # Installing yay
 sudo git clone https://aur.archlinux.org/yay.git
-sudo chown -R $USER:$USER ./yay
+sudo chown -R 1000:984 ./yay
 (cd yay && makepkg -si --noconfirm)
 
 # Updating yay packages
