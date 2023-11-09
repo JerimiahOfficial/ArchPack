@@ -28,6 +28,9 @@ sed -i '/^\s*#\s*\[multilib\]/,/^#\s*Include = \/etc\/pacman.d\/mirrorlist/ s/#\
 pacman -Syu
 pacman -S --noconfirm grub efibootmgr sudo
 
+# Install desktop environment
+pacman -S --noconfirm xorg xorg-xwayland plasma plasma-meta plasma-wayland-session konsole networkmanager ufw dolphin nvidia nvidia-utils lib32-nvidia-utils nvidia-settings
+
 # Create nvidia hooks for pacman
 # https://wiki.archlinux.org/title/NVIDIA#pacman_hook
 cat <<EOF >/etc/pacman.d/hooks/nvidia.hook
@@ -67,9 +70,6 @@ sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"/GRUB_CMDLINE_LINUX_DEFAU
 
 # make grub config
 grub-mkconfig -o /boot/grub/grub.cfg
-
-# Install desktop environment
-pacman -S --noconfirm xorg xorg-xwayland plasma plasma-meta plasma-wayland-session konsole networkmanager ufw dolphin nvidia nvidia-utils lib32-nvidia-utils nvidia-settings
 
 # Enable services
 systemctl enable sddm.service
