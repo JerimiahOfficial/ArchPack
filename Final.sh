@@ -4,7 +4,7 @@
 sudo pacman -Syu --noconfirm
 
 # Installing applications
-sudo pacman -S firefox bitwarden discord obs-studio steam
+sudo pacman -S bitwarden discord obs-studio steam
 
 # Installing developement packages
 sudo pacman -S git jre17-openjdk nodejs npm
@@ -17,14 +17,14 @@ cd ~
 
 # Installing yay
 sudo git clone https://aur.archlinux.org/yay.git
-sudo chown -R 1000:984 ./yay
+sudo chown -R $USER:$USER ./yay
 (cd yay && makepkg -si --noconfirm)
 
 # Updating yay packages
 yay -Syu --noconfirm
 
 # Installing yay packages
-yay -S github-desktop-bin vscodium-bin minecraft-launcher
+yay -S mercury-browser-bin github-desktop-bin vscodium-bin minecraft-launcher
 
 # Installing themes
 sudo git clone https://github.com/vinceliuice/Orchis-kde.git
