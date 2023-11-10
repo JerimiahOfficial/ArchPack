@@ -17,24 +17,32 @@ parted -s /dev/sda \
   mkpart primary ext4 65GiB 100%
 
 # 4 TB
-# parted /dev/sdb mklabel gpt \
-#   mkpart primary ext4 0% 100%
+if [ -b /dev/sdb ]; then
+  parted -s /dev/sdb \
+    mklabel gpt \
+    mkpart primary ext4 0% 100%
+fi
 
 # Creating filesystems
-mkfs.ext4 /dev/sda3
-mkswap /dev/sda2
 mkfs.fat -F32 /dev/sda1
+mkswap /dev/sda2
+swapon /dev/sda2
+mkfs.ext4 /dev/sda3
 
 # Mounting partitions
 mount /dev/sda3 /mnt
-swapon /dev/sda2
-mkdir -p /mnt/boot/efi
-mount --mkdir /dev/sda1 /mnt/boot/efi
+mkdir -p /mnt/boot
+mkdir -p /mnt/home
+mount /dev/sda1 /mnt/boot
+
+# Install ranked mirrors
+pacman -S --noconfirm pacman-contrib
 
 # Get mirror list
-pacman -Sy
-pacman -S --noconfirm pacman-contrib
 rankmirrors -n 6 /etc/pacman.d/mirrorlist >temp && mv temp /etc/pacman.d/mirrorlist
+
+# Update pacman
+pacman -Syu --noconfirm
 
 # Installing base system
 pacstrap -K /mnt base base-devel linux linux-firmware linux-headers
