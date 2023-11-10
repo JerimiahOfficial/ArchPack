@@ -10,11 +10,14 @@ fi
 # Updating pacman packages
 sudo pacman -Syu --noconfirm
 
-# Installing applications
-sudo pacman -S bitwarden discord obs-studio steam
+# Applications
+sudo pacman -S bitwarden discord steam vlc
 
-# Installing developement packages
-sudo pacman -S git jre17-openjdk nodejs npm
+# Recording and editing
+sudo pacman -S obs-studio kdenlive
+
+# Developement
+sudo pacman -S git jre17-openjdk nodejs npm cmake
 
 # Installing virtualization packages
 # sudo pacman -S bridge-utils dnsmasq libvirt openbsd-netcat qemu-full vde2 virt-manager virt-viewer
@@ -22,9 +25,13 @@ sudo pacman -S git jre17-openjdk nodejs npm
 # Change directory to home directory
 cd ~
 
+# Get user id and group id
+UID=$(id -un)
+GID=$(id -gn)
+
 # Installing yay
 sudo git clone https://aur.archlinux.org/yay.git
-sudo chown -R $USER:$USER ./yay
+sudo chown -R $UID:$GID yay
 (cd yay && makepkg -si --noconfirm)
 
 # Updating yay packages
