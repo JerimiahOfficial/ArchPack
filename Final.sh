@@ -1,5 +1,12 @@
 #!/bin/bash -e
 
+# Check if user is root
+# if root then close
+if [ "$EUID" -eq 0 ]; then
+  echo "Please run as normal user"
+  exit
+fi
+
 # Updating pacman packages
 sudo pacman -Syu --noconfirm
 

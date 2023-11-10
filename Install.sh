@@ -42,7 +42,7 @@ pacman -S --noconfirm pacman-contrib
 rankmirrors -n 6 /etc/pacman.d/mirrorlist >temp && mv temp /etc/pacman.d/mirrorlist
 
 # Update pacman
-pacman -Syu --noconfirm
+pacman -Sy --noconfirm
 
 # Installing base system
 pacstrap -K /mnt base base-devel linux linux-firmware linux-headers
