@@ -37,7 +37,7 @@ pacman -S --noconfirm pacman-contrib
 rankmirrors -n 6 /etc/pacman.d/mirrorlist >temp && mv temp /etc/pacman.d/mirrorlist
 
 # Installing base system
-pacstrap -K /mnt base base-devel linux linux-headers
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers
 
 # Generating fstab
 genfstab -U -p /mnt >>/mnt/etc/fstab
