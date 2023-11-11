@@ -19,6 +19,9 @@ sudo pacman -S obs-studio kdenlive
 # Developement
 sudo pacman -S git jre17-openjdk nodejs npm cmake
 
+# Vulkan
+sudo pacman -S vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
+
 # Installing virtualization packages
 # sudo pacman -S bridge-utils dnsmasq libvirt openbsd-netcat qemu-full vde2 virt-manager virt-viewer
 
@@ -26,19 +29,19 @@ sudo pacman -S git jre17-openjdk nodejs npm cmake
 cd ~
 
 # Get user id and group id
-UID=$(id -un)
-GID=$(id -gn)
+UUID=$(id -u)
+GUID=$(id -g)
 
 # Installing yay
 sudo git clone https://aur.archlinux.org/yay.git
-sudo chown -R $UID:$GID yay
+sudo chown -R $UUID:$GUID yay
 (cd yay && makepkg -si --noconfirm)
 
 # Updating yay packages
 yay -Syu --noconfirm
 
 # Installing yay packages
-yay -S mercury-browser-bin github-desktop-bin vscodium-bin minecraft-launcher
+yay -S librewolf-bin github-desktop-bin vscodium-bin minecraft-launcher
 
 # Installing themes
 sudo git clone https://github.com/vinceliuice/Orchis-kde.git
