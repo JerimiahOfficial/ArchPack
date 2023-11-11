@@ -1,35 +1,51 @@
 #!/bin/bash -e
 
-# Localization
-echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
+# Enable parallel downloads
+sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+
+# Network setup
+pacman -S --noconfirm --needed networkmanager dhclient
+systemctl enable --now NetworkManager
+
+# Get best mirrors
+pacman -S --noconfirm --needed pacman-contrib
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+rankmirrors -n 6 /etc/pacman.d/mirrorlist >/etc/pacman.d/mirrorlist
+
+# Localization and Time
+sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 
 locale-gen
 
-echo "LANG=en_US.UTF-8" >/etc/locale.conf
-export LANG=en_US.UTF-8
+timedatectl --no-ask-password set-timezone
+timedatectl --no-ask-password set-ntp 1
 
-# Timezone
 ln -sf /usr/share/zoneinfo/Canada/Eastern >/etc/localtime
-hwclock --systohc --utc
 
-# Network configuration
-echo "archlinux" >>/etc/hostname
+localectl --no-ask-password set-locale LANG="en_US.UTF-8" LC_TIME="en_US.UTF-8"
+localectl --no-ask-password set-keymap us
+
+# Set hostname of the system
+echo "archlinux" >/etc/hostname
 
 # Create the user
 useradd -m -g users -G wheel,storage,power -s /bin/bash jerimiah
+echo "jerimiah:123214" | chpasswd
 
 # Enable fstrim
 systemctl enable fstrim.timer
 
-# Enable multilib
-sed -i '/^\s*#\s*\[multilib\]/,/^#\s*Include = \/etc\/pacman.d\/mirrorlist/ s/#\s*//' /etc/pacman.conf
-pacman -Sy
-pacman -S --noconfirm intel-ucode
-#pacman -S --noconfirm grub efibootmgr sudo
-
 # Allow wheel group to use sudo
 sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 echo "Defaults rootpw" >>/etc/sudoers
+
+# Enable multilib
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+pacman -Sy --noconfirm --needed
+
+# Installing Microcode
+pacman -S --noconfirm intel-ucode
+proc_ucode=intel-ucode.img
 
 # Mount efi vars
 mount -t efivarfs efivarfs /sys/firmware/efi/efivars
@@ -83,7 +99,6 @@ pacman -S --noconfirm plasma plasma-meta plasma-wayland-session konsole networkm
 
 # Enable services
 systemctl enable sddm.service
-systemctl enable NetworkManager.service
 systemctl enable ufw.service
 
 # Prompt user to reboot
@@ -94,7 +109,7 @@ Installation complete
 1. Enter arch-chroot /mnt
 2. Set root a password
 3. Set user a password
-4. unmount -a
+4. unmount -R /mnt
 
 Reboot to complete installation
 #########################################

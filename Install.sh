@@ -5,7 +5,10 @@ chrootscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/C
 finalscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Final.sh"
 
 # Sync the system clock
-timedatectl
+timedatectl set-ntp true
+
+# Update Archlinux key rings
+pacman -S --noconfirm archlinux-keyring
 
 # Creating partitions using parted
 # M.2
@@ -31,21 +34,19 @@ mkfs.ext4 /dev/sda3
 
 # Mounting partitions
 mount /dev/sda3 /mnt
-mkdir -p /mnt/boot
-mkdir -p /mnt/home
+mkdir /mnt/boot
+mkdir /mnt/home
 mount /dev/sda1 /mnt/boot
 
 # Install ranked mirrors
-pacman -S --noconfirm pacman-contrib
+pacman -Syy --noconfirm pacman-contrib
 
 # Get mirror list
-rankmirrors -n 6 /etc/pacman.d/mirrorlist >temp && mv temp /etc/pacman.d/mirrorlist
-
-# Update pacman
-pacman -Sy --noconfirm
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+rankmirrors -n 6 /etc/pacman.d/mirrorlist >/etc/pacman.d/mirrorlist
 
 # Installing base system
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano sudo archlinux-keyring --noconfirm --needed
 
 # Generating fstab
 genfstab -U -p /mnt >>/mnt/etc/fstab
