@@ -8,6 +8,9 @@ finalscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Fi
 # Sync the system clock
 timedatectl set-ntp true
 
+# Enable parallel downloads
+sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+
 # Update Archlinux key rings
 pacman -S --noconfirm archlinux-keyring
 
@@ -65,3 +68,9 @@ chmod +x /mnt/Final.sh
 
 # Delete chroot script
 rm /mnt/Chroot.sh
+
+# Sleep for 5 seconds
+Sleep 5
+
+# Reboot the system
+reboot

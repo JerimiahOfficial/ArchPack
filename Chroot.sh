@@ -25,6 +25,9 @@ echo "archlinux" >/etc/hostname
 
 # Create the user
 useradd -m -g users -G wheel,storage,power -s /bin/bash jerimiah
+
+# Set password of the users
+echo "root:123214" | chpasswd
 echo "jerimiah:123214" | chpasswd
 
 # Enable fstrim
@@ -101,11 +104,6 @@ cat <<EOF
 #########################################
 Installation complete
 
-1. Enter arch-chroot /mnt
-2. Set root a password
-3. Set user a password
-4. unmount -R /mnt
-
-Reboot to complete installation
+Reboot rebooting the system in 5 seconds
 #########################################
 EOF
