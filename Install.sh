@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 # Variables
+mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
 chrootscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh"
 finalscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Final.sh"
 
@@ -38,12 +39,11 @@ mkdir /mnt/boot
 mkdir /mnt/home
 mount /dev/sda1 /mnt/boot
 
-# Install ranked mirrors
-pacman -Syy --noconfirm pacman-contrib
-
-# Get mirror list
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
-rankmirrors -n 6 /etc/pacman.d/mirrorlist >/etc/pacman.d/mirrorlist
+# Fetch mirrorlist
+# Using the results because Canada doesn't have that many servers
+# no need to rank them.
+curl -s $mirrorlist >/etc/pacman.d/mirrorlist
+sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
 
 # Installing base system
 pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano sudo archlinux-keyring --noconfirm --needed
