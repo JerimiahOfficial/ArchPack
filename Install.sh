@@ -40,16 +40,14 @@ mkdir /mnt/home
 mount /dev/sda1 /mnt/boot
 
 # Fetch mirrorlist
-# Using the results because Canada doesn't have that many servers
-# no need to rank them.
 curl -s $mirrorlist >/etc/pacman.d/mirrorlist
 sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
+cat /etc/pacman.d/mirrorlist >/mnt/etc/pacman.d/mirrorlist
 
 # Installing base system
 pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano sudo archlinux-keyring --noconfirm --needed
 
 echo "keyserver hkp://keyserver.ubuntu.com" >>/mnt/etc/pacman.d/gnupg/gpg.conf
-cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 
 # Generating fstab
 genfstab -U -p /mnt >>/mnt/etc/fstab

@@ -7,11 +7,6 @@ sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 pacman -S --noconfirm --needed networkmanager dhclient
 systemctl enable --now NetworkManager
 
-# Get best mirrors
-pacman -S --noconfirm --needed pacman-contrib
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
-rankmirrors -n 6 /etc/pacman.d/mirrorlist >/etc/pacman.d/mirrorlist
-
 # Localization and Time
 sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 
@@ -53,6 +48,9 @@ mount -t efivarfs efivarfs /sys/firmware/efi/efivars
 # Intall bootloader
 bootctl install
 
+# Nvidia drivers
+pacman -S --noconfirm nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings
+
 # Create bootloader config
 cat <<EOF >/boot/loader/entries/arch.conf
 title   Arch
@@ -61,9 +59,6 @@ initrd  /intel-ucode.img
 initrd  /initramfs-linux.img
 EOF
 echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) rw nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
-
-# Nvidia drivers
-pacman -S --noconfirm nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings
 
 # Create nvidia hooks for pacman
 # https://wiki.archlinux.org/title/NVIDIA#pacman_hook
@@ -95,7 +90,7 @@ mkinitcpio -P
 pacman -S --noconfirm xorg xorg-apps xorg-xinit xorg-twm xorg-xclock xterm xorg-xwayland
 
 # Install desktop environment
-pacman -S --noconfirm plasma plasma-meta plasma-wayland-session konsole networkmanager ufw dolphin
+pacman -S --noconfirm plasma plasma-meta plasma-wayland-session konsole ufw dolphin
 
 # Enable services
 systemctl enable sddm.service
