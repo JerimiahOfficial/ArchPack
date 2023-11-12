@@ -5,14 +5,18 @@ mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_versi
 chrootscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh"
 finalscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Final.sh"
 
-# Sync the system clock
-timedatectl set-ntp true
-
 # Enable parallel downloads
 sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 
-# Update Archlinux key rings
-pacman -S --noconfirm archlinux-keyring
+# Fetch mirrorlist
+curl -s $mirrorlist >/etc/pacman.d/mirrorlist
+sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
+
+# Update pacman
+pacman -Syu --noconfirm
+
+# Sync the system clock
+timedatectl set-ntp true
 
 # Creating partitions using parted
 # M.2
@@ -42,9 +46,7 @@ mkdir /mnt/boot
 mkdir /mnt/home
 mount /dev/sda1 /mnt/boot
 
-# Fetch mirrorlist
-curl -s $mirrorlist >/etc/pacman.d/mirrorlist
-sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
+# Copy mirrorlist to new system
 cat /etc/pacman.d/mirrorlist >/mnt/etc/pacman.d/mirrorlist
 
 # Installing base system

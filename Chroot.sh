@@ -51,6 +51,19 @@ mount -t efivarfs efivarfs /sys/firmware/efi/efivars
 # Intall bootloader
 bootctl install
 
+# Systemd-boot hook
+cat <<EOF >/etc/pacman.d/hooks/95-systemd-boot.hook
+[Trigger]
+Type = Package
+Operation = Upgrade
+Target = systemd
+
+[Action]
+Description = Gracefully upgrading systemd-boot...
+When = PostTransaction
+Exec = /usr/bin/systemctl restart systemd-boot-update.service
+EOF
+
 # Nvidia drivers
 pacman -S --noconfirm nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings
 
