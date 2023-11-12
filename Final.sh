@@ -23,7 +23,7 @@ sudo pacman -S git jre17-openjdk nodejs npm cmake
 sudo pacman -S vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
 
 # Installing virtualization packages
-# sudo pacman -S bridge-utils dnsmasq libvirt openbsd-netcat qemu-full vde2 virt-manager virt-viewer
+sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs libvirt
 
 # Change directory to home directory
 cd ~
@@ -52,8 +52,8 @@ sudo git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git
 sudo bash ./Tela-circle-icon-theme/install.sh
 
 # Adding user to libvirt group and starting the service.
-# sudo usermod -aG libvirt $USER
+sudo usermod -aG libvirt $USER
 
 # Services
-# sudo systemctl enable libvirtd
-# sudo systemctl start libvirtd
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtd
