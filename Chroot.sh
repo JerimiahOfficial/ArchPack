@@ -42,7 +42,7 @@ sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm --needed
 
 # Installing Microcode
-pacman -S --noconfirm intel-ucode
+pacman -S --noconfirm --needed intel-ucode
 proc_ucode=intel-ucode.img
 
 # Mount efi vars
@@ -65,7 +65,7 @@ Exec = /usr/bin/systemctl restart systemd-boot-update.service
 EOF
 
 # Nvidia drivers
-pacman -S --noconfirm nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings
+pacman -S --noconfirm --needed nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings
 
 # Create bootloader config
 cat <<EOF >/boot/loader/entries/arch.conf
@@ -103,10 +103,10 @@ sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /e
 mkinitcpio -P
 
 # Install display manager
-pacman -S --noconfirm xorg xorg-apps xorg-xinit xorg-twm xorg-xclock xterm xorg-xwayland
+pcaman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
 
 # Install desktop environment
-pacman -S --noconfirm plasma plasma-meta plasma-wayland-session konsole ufw dolphin
+pacman -S --noconfirm --needed plasma plasma-wayland-session konsole ufw dolphin
 
 # Enable services
 systemctl enable sddm.service
