@@ -115,8 +115,8 @@ systemctl enable ufw.service
 # Prompt user to reboot
 cat <<EOF
 #########################################
-Installation complete
 
-Reboot rebooting the system in 5 seconds
+Installation complete reboot the system.
+
 #########################################
 EOF

@@ -70,9 +70,3 @@ chmod +x /mnt/Final.sh
 
 # Delete chroot script
 rm /mnt/Chroot.sh
-
-# Sleep for 5 seconds
-Sleep 5
-
-# Reboot the system
-reboot

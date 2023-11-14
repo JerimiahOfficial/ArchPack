@@ -43,14 +43,6 @@ yay -Syu --noconfirm
 # Installing yay packages
 yay -S librewolf-bin github-desktop-bin vscodium-bin minecraft-launcher
 
-# Installing themes
-# sudo git clone https://github.com/vinceliuice/Orchis-kde.git
-# sudo bash ./Orchis-kde/install.sh
-# sudo bash ./Orchis-kde/sddm/install.sh
-
-# sudo git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git
-# sudo bash ./Tela-circle-icon-theme/install.sh
-
 # Adding user to libvirt group and starting the service.
 sudo usermod -aG libvirt $USER
 
@@ -59,4 +51,4 @@ sudo systemctl enable libvirtd
 sudo systemctl start libvirtd
 
 # Cleaning up
-rm /Final.sh
+sudo rm /Final.sh
