@@ -11,7 +11,7 @@ fi
 sudo pacman -Syu --noconfirm
 
 # Applications
-sudo pacman -S bitwarden discord steam vlc ark
+sudo pacman -S bitwarden discord steam vlc ark corectrl
 
 # Recording and editing
 sudo pacman -S obs-studio kdenlive

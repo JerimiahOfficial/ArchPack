@@ -50,7 +50,7 @@ mount /dev/sda1 /mnt/boot
 cat /etc/pacman.d/mirrorlist >/mnt/etc/pacman.d/mirrorlist
 
 # Installing base system
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano sudo archlinux-keyring --noconfirm --needed
+pacstrap -K /mnt base base-devel linux-lts linux-firmware linux-lts-headers nano sudo archlinux-keyring --noconfirm --needed
 
 echo "keyserver hkp://keyserver.ubuntu.com" >>/mnt/etc/pacman.d/gnupg/gpg.conf
 

@@ -7,6 +7,10 @@ sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 pacman -S --noconfirm --needed networkmanager dhclient
 systemctl enable --now NetworkManager
 
+# Install pipewire
+pacman -S --noconfirm --needed pipewire pipewire-alsa pipewire-jack pipewire-pulse gst-plugin-pipewire libpulse wireplumber lib32-pipewire
+systemctl enable pipewire-pulse
+
 # Localization and Time
 sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 
@@ -65,7 +69,7 @@ Exec = /usr/bin/systemctl restart systemd-boot-update.service
 EOF
 
 # Nvidia drivers
-pacman -S --noconfirm --needed nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings
+pacman -S --noconfirm --needed nvidia-lts nvidia-utils lib32-nvidia-utils
 
 # Create bootloader config
 cat <<EOF >/boot/loader/entries/arch.conf
@@ -85,7 +89,7 @@ Operation=Install
 Operation=Upgrade
 Operation=Remove
 Type=Package
-Target=nvidia
+Target=nvidia-lts
 Target=linux
 
 [Action]
@@ -106,7 +110,7 @@ mkinitcpio -P
 pcaman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
 
 # Install desktop environment
-pacman -S --noconfirm --needed plasma plasma-wayland-session konsole ufw dolphin
+pacman -S --noconfirm --needed plasma-meta plasma-wayland-session konsole ufw dolphin
 
 # Enable services
 systemctl enable sddm.service
