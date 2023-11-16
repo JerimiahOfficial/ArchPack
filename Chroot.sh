@@ -69,7 +69,7 @@ Exec = /usr/bin/systemctl restart systemd-boot-update.service
 EOF
 
 # Nvidia drivers
-pacman -S --noconfirm --needed nvidia-lts nvidia-utils lib32-nvidia-utils
+pacman -S --noconfirm --needed nvidia-dkms nvidia-utils lib32-nvidia-utils
 
 # Create bootloader config
 cat <<EOF >/boot/loader/entries/arch.conf
@@ -89,7 +89,7 @@ Operation=Install
 Operation=Upgrade
 Operation=Remove
 Type=Package
-Target=nvidia-lts
+Target=nvidia
 Target=linux
 
 [Action]
