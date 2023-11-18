@@ -19,20 +19,16 @@ pacman -Syu --noconfirm
 timedatectl set-ntp true
 
 # Creating partitions using parted
-# M.2
-parted -s /dev/sda \
+parted -s /dev/nvme0n1 \
   mklabel gpt \
   mkpart primary fat32 0% 513MiB \
   set 1 esp on \
   mkpart primary linux-swap 513MiB 65GiB \
   mkpart primary ext4 65GiB 100%
 
-# 4 TB
-if [ -b /dev/sdb ]; then
-  parted -s /dev/sdb \
-    mklabel gpt \
-    mkpart primary ext4 0% 100%
-fi
+parted -s /dev/sda \
+  mklabel gpt \
+  mkpart primary ext4 0% 100%
 
 # Creating filesystems
 mkfs.fat -F32 /dev/sda1
