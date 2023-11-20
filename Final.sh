@@ -7,6 +7,13 @@ if [ "$EUID" -eq 0 ]; then
   exit
 fi
 
+# Variables
+mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
+
+# Fetch mirrorlist
+curl -s $mirrorlist >/etc/pacman.d/mirrorlist
+sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
+
 # Updating pacman packages
 sudo pacman -Syu --noconfirm
 
