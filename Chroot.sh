@@ -96,7 +96,7 @@ linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux.img
 EOF
-echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) rw nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
+echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3)rw nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
 
 # Create nvidia hooks for pacman
 # https://wiki.archlinux.org/title/NVIDIA#pacman_hook
