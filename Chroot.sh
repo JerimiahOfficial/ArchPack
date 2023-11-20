@@ -1,7 +1,19 @@
 #!/bin/bash -e
 
+echo "keyserver hkp://keyserver.ubuntu.com" >>/mnt/etc/pacman.d/gnupg/gpg.conf
+
+# Variables
+mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
+
+# Fetch mirrorlist
+curl -s $mirrorlist >/etc/pacman.d/mirrorlist
+sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
+
 # Enable parallel downloads
 sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+
+# Update pacman
+pacman -Syu --noconfirm --needed
 
 # Network setup
 pacman -S --noconfirm --needed networkmanager dhclient
