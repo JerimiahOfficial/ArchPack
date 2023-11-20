@@ -20,16 +20,17 @@ parted -s /dev/sda \
   mkpart primary ext4 0% 100%
 
 # Creating filesystems
-mkfs.fat -F32 /dev/sda1
-mkswap /dev/sda2
-swapon /dev/sda2
-mkfs.ext4 /dev/sda3
+mkfs.fat -F32 /dev/nvme0n1p1
+mkswap /dev/nvme0n1p2
+swapon /dev/nvme0n1p2
+mkfs.ext4 /dev/nvme0n1p3
+mkfs.ext4 /dev/sda1
 
 # Mounting partitions
-mount /dev/sda3 /mnt
+mount /dev/nvme0n1p3 /mnt
 mkdir /mnt/boot
 mkdir /mnt/home
-mount /dev/sda1 /mnt/boot
+mount /dev/nvme0n1p1 /mnt/boot
 
 # Installing base system
 pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano sudo archlinux-keyring --noconfirm --needed
