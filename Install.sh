@@ -1,19 +1,8 @@
 #!/bin/bash -e
 
 # Variables
-mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
 chrootscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh"
 finalscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Final.sh"
-
-# Enable parallel downloads
-sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
-
-# Fetch mirrorlist
-curl -s $mirrorlist >/etc/pacman.d/mirrorlist
-sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
-
-# Update pacman
-pacman -Syu --noconfirm
 
 # Sync the system clock
 timedatectl set-ntp true
@@ -42,13 +31,8 @@ mkdir /mnt/boot
 mkdir /mnt/home
 mount /dev/sda1 /mnt/boot
 
-# Copy mirrorlist to new system
-cat /etc/pacman.d/mirrorlist >/mnt/etc/pacman.d/mirrorlist
-
 # Installing base system
 pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano sudo archlinux-keyring --noconfirm --needed
-
-echo "keyserver hkp://keyserver.ubuntu.com" >>/mnt/etc/pacman.d/gnupg/gpg.conf
 
 # Generating fstab
 genfstab -U -p /mnt >>/mnt/etc/fstab
