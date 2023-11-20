@@ -65,7 +65,13 @@ proc_ucode=intel-ucode.img
 mount -t efivarfs efivarfs /sys/firmware/efi/efivars
 
 # Intall bootloader
-bootctl install
+bootctl --path=/boot install
+
+# Edit the loader config
+cat <<EOF >/boot/loader/loader.conf
+timeout 3
+default arch-*
+EOF
 
 # Systemd-boot hook
 cat <<EOF >/etc/pacman.d/hooks/95-systemd-boot.hook
