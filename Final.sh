@@ -11,14 +11,14 @@ fi
 mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
 
 # Fetch mirrorlist
-curl -s $mirrorlist >/etc/pacman.d/mirrorlist
-sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
+sudo curl -s $mirrorlist >/etc/pacman.d/mirrorlist
+sudo sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
 
 # Updating pacman packages
 sudo pacman -Syu --noconfirm
 
 # Applications
-sudo pacman -S bitwarden discord steam vlc ark corectrl
+sudo pacman -S bitwarden discord steam vlc ark
 
 # Recording and editing
 sudo pacman -S obs-studio kdenlive
