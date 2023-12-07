@@ -48,7 +48,7 @@ sudo chown -R $UUID:$GUID yay
 yay -Syu --noconfirm
 
 # Installing yay packages
-yay -S librewolf-bin github-desktop-bin vscodium-bin minecraft-launcher
+yay -S librewolf-bin portmaster-stub-bin vscodium-bin minecraft-launcher
 
 # Adding user to libvirt group and starting the service.
 sudo usermod -aG libvirt $USER
