@@ -15,6 +15,18 @@ if [ -e /dev/nvme0n1 ]; then
     set 1 esp on \
     mkpart primary linux-swap 513MiB 65GiB \
     mkpart primary ext4 65GiB 100%
+  
+  # Creating filesystems
+  mkfs.fat -F32 /dev/nvme0n1p1
+  mkswap /dev/nvme0n1p2
+  swapon /dev/nvme0n1p2
+  mkfs.ext4 /dev/nvme0n1p3
+
+  # Mounting partitions
+  mount /dev/nvme0n1p3 /mnt
+  mkdir /mnt/boot
+  mkdir /mnt/home
+  mount /dev/nvme0n1p1 /mnt/boot
 else
   # SATA device
   parted -s /dev/sda \
@@ -23,20 +35,19 @@ else
     set 1 esp on \
     mkpart primary linux-swap 513MiB 65GiB \
     mkpart primary ext4 65GiB 100%
+  
+  # Creating filesystems
+  mkfs.fat -F32 /dev/sda1
+  mkswap /dev/sda2
+  swapon /dev/sda2
+  mkfs.ext4 /dev/sda3
+
+  # Mounting partitions
+  mount /dev/sda3 /mnt
+  mkdir /mnt/boot
+  mkdir /mnt/home
+  mount /dev/sda1 /mnt/boot
 fi
-
-# Creating filesystems
-mkfs.fat -F32 /dev/nvme0n1p1
-mkswap /dev/nvme0n1p2
-swapon /dev/nvme0n1p2
-mkfs.ext4 /dev/nvme0n1p3
-mkfs.ext4 /dev/sda1
-
-# Mounting partitions
-mount /dev/nvme0n1p3 /mnt
-mkdir /mnt/boot
-mkdir /mnt/home
-mount /dev/nvme0n1p1 /mnt/boot
 
 # Installing base system
 pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano sudo networkmanager --noconfirm --needed
