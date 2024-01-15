@@ -7,6 +7,19 @@ if [ "$EUID" -eq 0 ]; then
   exit
 fi
 
+# Nvidia
+pacman -S --noconfirm --needed nvidia-dkms nvidia-utils lib32-nvidia-utils
+
+# Install display manager
+pcaman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
+
+# Install desktop environment
+pacman -S --noconfirm --needed plasma-meta plasma-wayland-session konsole ufw dolphin
+
+# Enable services
+systemctl enable sddm.service
+systemctl enable ufw.service
+
 # Variables
 mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
 
@@ -51,11 +64,11 @@ yay -Syu --noconfirm
 yay -S librewolf-bin portmaster-stub-bin vscodium-bin minecraft-launcher
 
 # Adding user to libvirt group and starting the service.
-sudo usermod -aG libvirt $USER
+# sudo usermod -aG libvirt $USER
 
 # Services
-sudo systemctl enable libvirtd
-sudo systemctl start libvirtd
+# sudo systemctl enable libvirtd
+# sudo systemctl start libvirtd
 
 # Cleaning up
 sudo rm /Final.sh

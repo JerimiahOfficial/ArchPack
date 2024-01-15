@@ -1,65 +1,40 @@
 #!/bin/bash -e
 
-echo "keyserver hkp://keyserver.ubuntu.com" >>/mnt/etc/pacman.d/gnupg/gpg.conf
+# Set time zone for toronto
+ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
 
-# Variables
-mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
+# Sync clock
+hwclock --systohc
 
-# Fetch mirrorlist
-curl -s $mirrorlist >/etc/pacman.d/mirrorlist
-sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
-
-# Enable parallel downloads
-sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
-
-# Update pacman
-pacman -Syu --noconfirm --needed
-
-# Network setup
-pacman -S --noconfirm --needed networkmanager dhclient
-systemctl enable --now NetworkManager
-
-# Install pipewire
-pacman -S --noconfirm --needed pipewire pipewire-alsa pipewire-jack pipewire-pulse gst-plugin-pipewire libpulse wireplumber lib32-pipewire
-systemctl enable pipewire-pulse
-
-# Localization and Time
+# Set locale
 sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 
+# Generate locale
 locale-gen
 
-timedatectl --no-ask-password set-timezone America/Toronto
-timedatectl --no-ask-password set-ntp 1
+# Set local config
+echo "LANG=en_US.UTF-8" >/etc/locale.conf
 
-ln -sf /usr/share/zoneinfo/America/Toronto >/etc/localtime
+# Set keymap
+echo "KEYMAP=us" >/etc/vconsole.conf
 
-localectl --no-ask-password set-locale LANG="en_US.UTF-8" LC_TIME="en_US.UTF-8"
-localectl --no-ask-password set-keymap us
-
-# Set hostname of the system
+# Set hostname
 echo "archlinux" >/etc/hostname
 
-# Create the user
-useradd -m -g users -G wheel,storage,power -s /bin/bash jerimiah
-
-# Set password of the users
+# Set root password
 echo "root:123214" | chpasswd
-echo "jerimiah:123214" | chpasswd
 
-# Enable fstrim
-systemctl enable fstrim.timer
+# Add user
+useradd -m -G wheel -s /bin/bash jerimiah
+
+# Set password
+echo "jerimiah:123214" | chpasswd
 
 # Allow wheel group to use sudo
 sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
-echo "Defaults rootpw" >>/etc/sudoers
 
-# Enable multilib
-sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
-pacman -Sy --noconfirm --needed
-
-# Installing Microcode
-pacman -S --noconfirm --needed intel-ucode
-proc_ucode=intel-ucode.img
+# Enable networkmanager
+systemctl enable NetworkManager
 
 # Mount efi vars
 mount -t efivarfs efivarfs /sys/firmware/efi/efivars
@@ -68,71 +43,22 @@ mount -t efivarfs efivarfs /sys/firmware/efi/efivars
 bootctl --path=/boot install
 
 # Edit the loader config
-cat <<EOF >/boot/loader/loader.conf
-timeout 3
-default arch-*
-EOF
-
-# Systemd-boot hook
-cat <<EOF >/etc/pacman.d/hooks/95-systemd-boot.hook
-[Trigger]
-Type = Package
-Operation = Upgrade
-Target = systemd
-
-[Action]
-Description = Gracefully upgrading systemd-boot...
-When = PostTransaction
-Exec = /usr/bin/systemctl restart systemd-boot-update.service
-EOF
-
-# Nvidia drivers
-pacman -S --noconfirm --needed nvidia-dkms nvidia-utils lib32-nvidia-utils
+echo "timeout 3" >> /boot/loader/loader.conf
+echo "default arch-*" >> /boot/loader/loader.conf
 
 # Create bootloader config
-cat <<EOF >/boot/loader/entries/arch.conf
-title   Arch
-linux   /vmlinuz-linux
-initrd  /intel-ucode.img
-initrd  /initramfs-linux.img
-EOF
-echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3)rw nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
+echo "title   Arch" >> /boot/loader/entries/arch.conf
+echo "linux   /vmlinuz-linux" >> /boot/loader/entries/arch.conf
+echo "initrd  /intel-ucode.img" >> /boot/loader/entries/arch.conf
+echo "initrd  /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 
-# Create nvidia hooks for pacman
-# https://wiki.archlinux.org/title/NVIDIA#pacman_hook
-mkdir /etc/pacman.d/hooks
-cat <<EOF >/etc/pacman.d/hooks/nvidia.hook
-[Trigger]
-Operation=Install
-Operation=Upgrade
-Operation=Remove
-Type=Package
-Target=nvidia
-Target=linux
-
-[Action]
-Description=Update NVIDIA module in initcpio
-Depends=mkinitcpio
-When=PostTransaction
-NeedsTargets
-Exec=/bin/sh -c 'while read -r trg; do case $trg in linux*) exit 0; esac; done; /usr/bin/mkinitcpio -P'
-EOF
-
-# Enable nvidia for initial ramdisk
-sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
-
-# initramfs
-mkinitcpio -P
-
-# Install display manager
-pcaman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
-
-# Install desktop environment
-pacman -S --noconfirm --needed plasma-meta plasma-wayland-session konsole ufw dolphin
-
-# Enable services
-systemctl enable sddm.service
-systemctl enable ufw.service
+if [ -e /dev/nvme0n1 ]; then
+  # NVMe device
+  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3)rw" >>/boot/loader/entries/arch.conf
+else
+  # SATA device
+  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3)rw" >>/boot/loader/entries/arch.conf
+fi
 
 # Prompt user to reboot
 cat <<EOF
