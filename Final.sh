@@ -10,15 +10,18 @@ fi
 pacman_hook="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/nvidia.hook"
 
 # Enable multilib
-sudosed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+sudo sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+
+# Update system
+sudo pacman -Sy --noconfirm
 
 # Nvidia
-sudo pacman -S --noconfirm --needed nvidia-dkms nvidia-utils lib32-nvidia-utils
+sudo pacman -S --noconfirm --needed nvidia nvidia-utils lib32-nvidia-utils
 
 # Create nvidia hooks for pacman - https://wiki.archlinux.org/title/NVIDIA#pacman_hook
 sudo mkdir /etc/pacman.d/hooks
 
-curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
+sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
 
 # Enable nvidia for initial ramdisk
 sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
