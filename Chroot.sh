@@ -43,21 +43,21 @@ mount -t efivarfs efivarfs /sys/firmware/efi/efivars
 bootctl --path=/boot install
 
 # Edit the loader config
-echo "timeout 3" >> /boot/loader/loader.conf
-echo "default arch-*" >> /boot/loader/loader.conf
+echo "default arch.conf" >> /boot/loader/loader.conf
+echo "timeout 4" >> /boot/loader/loader.conf
 
 # Create bootloader config
-echo "title   Arch" >> /boot/loader/entries/arch.conf
+echo "title   Arch linux" >> /boot/loader/entries/arch.conf
 echo "linux   /vmlinuz-linux" >> /boot/loader/entries/arch.conf
 echo "initrd  /intel-ucode.img" >> /boot/loader/entries/arch.conf
 echo "initrd  /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 
 if [ -e /dev/nvme0n1 ]; then
   # NVMe device
-  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3)rw" >>/boot/loader/entries/arch.conf
+  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw" >>/boot/loader/entries/arch.conf
 else
   # SATA device
-  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3)rw" >>/boot/loader/entries/arch.conf
+  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) rw" >>/boot/loader/entries/arch.conf
 fi
 
 # Prompt user to reboot
