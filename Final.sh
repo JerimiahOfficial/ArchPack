@@ -7,11 +7,24 @@ if [ "$EUID" -eq 0 ]; then
   exit
 fi
 
+pacman_hook="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/nvidia.hook"
+
 # Enable multilib
-sudo sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+sudosed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 
 # Nvidia
 sudo pacman -S --noconfirm --needed nvidia-dkms nvidia-utils lib32-nvidia-utils
+
+# Create nvidia hooks for pacman - https://wiki.archlinux.org/title/NVIDIA#pacman_hook
+sudo mkdir /etc/pacman.d/hooks
+
+curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
+
+# Enable nvidia for initial ramdisk
+sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
+
+# initramfs
+mkinitcpio -P
 
 # Install display manager
 sudo pacman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
