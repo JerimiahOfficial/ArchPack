@@ -7,25 +7,21 @@ if [ "$EUID" -eq 0 ]; then
   exit
 fi
 
+# Enable multilib
+sudo sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+
 # Nvidia
-pacman -S --noconfirm --needed nvidia-dkms nvidia-utils lib32-nvidia-utils
+sudo pacman -S --noconfirm --needed nvidia-dkms nvidia-utils lib32-nvidia-utils
 
 # Install display manager
-pcaman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
+sudo pacman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
 
 # Install desktop environment
-pacman -S --noconfirm --needed plasma-meta plasma-wayland-session konsole ufw dolphin
+sudo pacman -S --noconfirm --needed plasma-meta plasma-wayland-session konsole ufw dolphin
 
 # Enable services
 systemctl enable sddm.service
 systemctl enable ufw.service
-
-# Variables
-mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
-
-# Fetch mirrorlist
-sudo curl -s $mirrorlist >/etc/pacman.d/mirrorlist
-sudo sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist
 
 # Updating pacman packages
 sudo pacman -Syu --noconfirm
@@ -43,7 +39,7 @@ sudo pacman -S git jre17-openjdk nodejs npm cmake
 sudo pacman -S vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
 
 # Installing virtualization packages
-sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs libvirt
+# sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs libvirt
 
 # Change directory to home directory
 cd ~
