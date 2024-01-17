@@ -7,6 +7,7 @@ if [ "$EUID" -eq 0 ]; then
   exit
 fi
 
+# Variables
 pacman_hook="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/nvidia.hook"
 
 # Enable multilib
@@ -15,16 +16,17 @@ sudo sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 # Update system
 sudo pacman -Sy --noconfirm
 
+# Enable nvidia for initial ramdisk
+sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
+
 # Nvidia
 sudo pacman -S --noconfirm --needed nvidia nvidia-utils lib32-nvidia-utils
 
+# Make hooks directory for pacman
+sudo mkdir -p /etc/pacman.d/hooks
+
 # Create nvidia hooks for pacman - https://wiki.archlinux.org/title/NVIDIA#pacman_hook
-sudo mkdir /etc/pacman.d/hooks
-
 sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
-
-# Enable nvidia for initial ramdisk
-sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
 
 # initramfs
 mkinitcpio -P
@@ -36,23 +38,23 @@ sudo pacman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayla
 sudo pacman -S --noconfirm --needed plasma-meta plasma-wayland-session konsole ufw dolphin
 
 # Enable services
-systemctl enable sddm.service
-systemctl enable ufw.service
+sudo systemctl enable sddm.service
+sudo systemctl enable ufw.service
 
 # Updating pacman packages
 sudo pacman -Syu --noconfirm
 
 # Applications
-sudo pacman -S bitwarden discord steam vlc ark
+sudo pacman -S --noconfirm bitwarden discord steam vlc ark
 
 # Recording and editing
-sudo pacman -S obs-studio kdenlive
+sudo pacman -S --noconfirm obs-studio kdenlive
 
 # Developement
-sudo pacman -S git jre17-openjdk nodejs npm cmake
+sudo pacman -S --noconfirm git jre17-openjdk nodejs npm cmake
 
 # Vulkan
-sudo pacman -S vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
+sudo pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
 
 # Installing virtualization packages
 # sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs libvirt
@@ -73,7 +75,7 @@ sudo chown -R $UUID:$GUID yay
 yay -Syu --noconfirm
 
 # Installing yay packages
-yay -S librewolf-bin portmaster-stub-bin vscodium-bin modrinth-app-bin
+yay -S --noconfirm librewolf-bin portmaster-stub-bin vscodium-bin modrinth-app-bin
 
 # Adding user to libvirt group and starting the service.
 # sudo usermod -aG libvirt $USER
