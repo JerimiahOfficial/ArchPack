@@ -43,7 +43,7 @@ mount -t efivarfs efivarfs /sys/firmware/efi/efivars
 bootctl --path=/boot install
 
 # Edit the loader config
-echo "default arch.conf" >>/boot/loader/loader.conf
+echo "default arch.conf" >/boot/loader/loader.conf
 echo "timeout 4" >>/boot/loader/loader.conf
 
 # Create bootloader config
@@ -60,9 +60,8 @@ else
   echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) rw nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
 fi
 
-# Prompt user to reboot
-echo "#########################################"
-echo ""
-echo "Installation complete reboot the system."
-echo ""
-echo "#########################################"
+# Schedule message for next login
+echo "You will need to run /Final.sh" > /etc/issue
+
+# Reboot the system
+reboot
