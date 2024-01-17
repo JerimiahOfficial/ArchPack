@@ -86,3 +86,5 @@ yay -S --noconfirm librewolf-bin portmaster-stub-bin vscodium-bin modrinth-app-b
 
 # Cleaning up
 sudo rm /Final.sh
+
+sudo echo "" >/etc/issue
