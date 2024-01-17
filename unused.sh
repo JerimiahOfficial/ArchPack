@@ -145,3 +145,15 @@ Installation complete reboot the system.
 
 #########################################
 EOF
+
+# virtualization stuff
+
+# Installing virtualization packages
+sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs libvirt
+
+# Adding user to libvirt group and starting the service.
+sudo usermod -aG libvirt $USER
+
+# Services
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtd

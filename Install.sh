@@ -68,3 +68,6 @@ chmod +x /mnt/Final.sh
 
 # Delete chroot script
 rm /mnt/Chroot.sh
+
+# Reboot the system
+reboot

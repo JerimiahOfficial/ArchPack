@@ -28,9 +28,6 @@ sudo mkdir -p /etc/pacman.d/hooks
 # Create nvidia hooks for pacman - https://wiki.archlinux.org/title/NVIDIA#pacman_hook
 sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
 
-# initramfs
-mkinitcpio -P
-
 # Install display manager
 sudo pacman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
 
@@ -56,9 +53,6 @@ sudo pacman -S --noconfirm git jre17-openjdk nodejs npm cmake
 # Vulkan
 sudo pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
 
-# Installing virtualization packages
-# sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs libvirt
-
 # Change directory to home directory
 cd ~
 
@@ -77,14 +71,5 @@ yay -Syu --noconfirm
 # Installing yay packages
 yay -S --noconfirm librewolf-bin portmaster-stub-bin vscodium-bin modrinth-app-bin
 
-# Adding user to libvirt group and starting the service.
-# sudo usermod -aG libvirt $USER
-
-# Services
-# sudo systemctl enable libvirtd
-# sudo systemctl start libvirtd
-
 # Cleaning up
 sudo rm /Final.sh
-
-sudo echo "" >/etc/issue

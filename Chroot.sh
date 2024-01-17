@@ -59,9 +59,3 @@ else
   # SATA device
   echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) rw nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
 fi
-
-# Schedule message for next login
-echo "You will need to run /Final.sh" > /etc/issue
-
-# Reboot the system
-reboot
