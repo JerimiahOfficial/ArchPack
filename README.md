@@ -1,10 +1,10 @@
 # ArchPack
-This is a script to install all the software I need on a new arch system. This script is to be ran after a fresh install on an Archlinux system.
+### What is ArchPack?
+ArchPack is a simple install script for Archlinux. This script installs Archlinux along with many packages that I use.
 
-### Packages
-The packages can be found inside the scripts.
+### Help or Issues
+I have only tested this on [VMware Workstation 17 Player](https://www.vmware.com/products/workstation-player/workstation-player-evaluation.html) with the `firmware="efi"` setting in the virtual machine config file. This script has not been tested on actual hardware.
 
-### Command to run it
-
+### Usage
 This is the command to run the script from your terminal:  
 `bash <(curl -s https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Install.sh)`
