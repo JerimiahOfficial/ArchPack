@@ -42,7 +42,7 @@ sudo systemctl enable ufw.service
 sudo pacman -Syu --noconfirm
 
 # Applications
-sudo pacman -S --noconfirm bitwarden discord steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
+sudo pacman -S --noconfirm bitwarden steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
 
 # Change directory to home directory
 cd ~
@@ -60,7 +60,7 @@ sudo chown -R $UUID:$GUID yay
 yay -Syu --noconfirm
 
 # Installing yay packages
-yay -S --noconfirm librewolf-bin portmaster-stub-bin vscodium-bin modrinth-app-bin
+yay -S --noconfirm vencord-desktop-bin librewolf-bin portmaster-stub-bin vscodium-bin modrinth-app-bin
 
 # Cleaning up
 sudo rm /Final.sh
