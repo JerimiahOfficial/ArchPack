@@ -42,16 +42,7 @@ sudo systemctl enable ufw.service
 sudo pacman -Syu --noconfirm
 
 # Applications
-sudo pacman -S --noconfirm bitwarden discord steam vlc ark
-
-# Recording and editing
-sudo pacman -S --noconfirm obs-studio kdenlive
-
-# Developement
-sudo pacman -S --noconfirm git jre17-openjdk nodejs npm cmake
-
-# Vulkan
-sudo pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
+sudo pacman -S --noconfirm bitwarden discord steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
 
 # Change directory to home directory
 cd ~
