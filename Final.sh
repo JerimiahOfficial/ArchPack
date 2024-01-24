@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 # Check if user is root
-# if root then close
 if [ "$EUID" -eq 0 ]; then
   echo "Please run as normal user"
   exit
@@ -10,17 +9,18 @@ fi
 # Variables
 pacman_hook="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/nvidia.hook"
 
-# Enable multilib
+# Edit pacman.conf
 sudo sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 
 # Update system
-sudo pacman -Sy --noconfirm
+sudo pacman -Syu --noconfirm
 
 # Enable nvidia for initial ramdisk
 sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
 
 # Nvidia
-sudo pacman -S --noconfirm --needed nvidia nvidia-utils lib32-nvidia-utils
+sudo pacman -S --noconfirm --needed mesa lib32-mesa libglvnd lib32-libglvnd lib32-keyutils lib32-krb5 nvidia nvidia-utils lib32-nvidia-utils
 
 # Make hooks directory for pacman
 sudo mkdir -p /etc/pacman.d/hooks
@@ -37,9 +37,6 @@ sudo pacman -S --noconfirm --needed plasma-meta plasma-wayland-session konsole u
 # Enable services
 sudo systemctl enable sddm.service
 sudo systemctl enable ufw.service
-
-# Updating pacman packages
-sudo pacman -Syu --noconfirm
 
 # Applications
 sudo pacman -S --noconfirm bitwarden discord steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
