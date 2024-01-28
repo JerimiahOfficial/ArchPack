@@ -42,7 +42,7 @@ sudo systemctl enable sddm.service
 sudo systemctl enable ufw.service
 
 # Applications
-sudo pacman -S --noconfirm bitwarden discord steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake
+sudo pacman -S --noconfirm bitwarden discord steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader
 
 # Get user id and group id
 UUID=$(id -u)
