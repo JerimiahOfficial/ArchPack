@@ -17,7 +17,9 @@ sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 sudo pacman -Syu --noconfirm
 
 # Enable nvidia for initial ramdisk
+# Reference: https://github.com/korvahannu/arch-nvidia-drivers-installation-guide
 sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
+sudo sed -i 's/kms //' /etc/mkinitcpio.conf
 
 # Nvidia
 sudo pacman -S --noconfirm --needed mesa lib32-mesa libglvnd lib32-libglvnd lib32-keyutils lib32-krb5 nvidia nvidia-utils lib32-nvidia-utils
@@ -25,7 +27,8 @@ sudo pacman -S --noconfirm --needed mesa lib32-mesa libglvnd lib32-libglvnd lib3
 # Make hooks directory for pacman
 sudo mkdir -p /etc/pacman.d/hooks
 
-# Create nvidia hooks for pacman - https://wiki.archlinux.org/title/NVIDIA#pacman_hook
+# Create nvidia hooks for pacman
+# Reference: https://wiki.archlinux.org/title/NVIDIA#pacman_hook
 sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
 
 # Install display manager
@@ -39,16 +42,14 @@ sudo systemctl enable sddm.service
 sudo systemctl enable ufw.service
 
 # Applications
-sudo pacman -S --noconfirm bitwarden discord steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader vulkan-headers vulkan-validation-layers vulkan-tools
-
-# Change directory to home directory
-cd ~
+sudo pacman -S --noconfirm bitwarden discord steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake
 
 # Get user id and group id
 UUID=$(id -u)
 GUID=$(id -g)
 
 # Installing yay
+cd ~
 sudo git clone https://aur.archlinux.org/yay.git
 sudo chown -R $UUID:$GUID yay
 (cd yay && makepkg -si --noconfirm)
