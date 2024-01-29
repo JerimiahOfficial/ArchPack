@@ -56,7 +56,7 @@ sudo chown -R $UUID:$GUID yay
 yay -Syu --noconfirm
 
 # Installing yay packages
-yay -S --noconfirm librewolf-bin portmaster-stub-bin vesktop-bin vscodium-bin modrinth-app-bin
+yay -S --noconfirm librewolf-bin modrinth-app-bin portmaster-stub-bin vesktop-bin vscodium-bin
 
 # Cleaning up
 sudo rm /Final.sh
