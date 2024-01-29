@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 # Variables
-# mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
 chrootscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh"
 finalscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Final.sh"
 
@@ -55,16 +54,14 @@ pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano sudo ne
 # Generating fstab
 genfstab -U -p /mnt >/mnt/etc/fstab
 
-# Download chroot script
+# Download scripts
 curl -s $chrootscript >/mnt/Chroot.sh
+curl -s $finalscript >/mnt/Final.sh
 chmod +x /mnt/Chroot.sh
+chmod +x /mnt/Final.sh
 
 # Chroot
 arch-chroot /mnt /bin/bash /Chroot.sh
-
-# Download final script
-curl -s $finalscript >/mnt/Final.sh
-chmod +x /mnt/Final.sh
 
 # Delete chroot script
 rm /mnt/Chroot.sh
