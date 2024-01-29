@@ -20,6 +20,7 @@ sudo pacman -Syu --noconfirm
 # Reference: https://github.com/korvahannu/arch-nvidia-drivers-installation-guide
 sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
 sudo sed -i 's/kms //' /etc/mkinitcpio.conf
+sudo mkinitcpio -P
 
 # Nvidia
 sudo pacman -S --noconfirm --needed mesa lib32-mesa libglvnd lib32-libglvnd lib32-keyutils lib32-krb5 nvidia nvidia-utils lib32-nvidia-utils
