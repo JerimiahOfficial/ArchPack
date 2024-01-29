@@ -42,7 +42,7 @@ sudo systemctl enable sddm.service
 sudo systemctl enable ufw.service
 
 # Applications
-sudo pacman -S --noconfirm bitwarden discord steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader
+sudo pacman -S --noconfirm bitwarden steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader
 
 # Get user id and group id
 UUID=$(id -u)
@@ -58,7 +58,7 @@ sudo chown -R $UUID:$GUID yay
 yay -Syu --noconfirm
 
 # Installing yay packages
-yay -S --noconfirm librewolf-bin portmaster-stub-bin vscodium-bin modrinth-app-bin
+yay -S --noconfirm librewolf-bin portmaster-stub-bin vesktop-bin vscodium-bin modrinth-app-bin
 
 # Cleaning up
 sudo rm /Final.sh

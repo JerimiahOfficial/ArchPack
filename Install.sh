@@ -10,12 +10,12 @@ finalscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Fi
 if [ -e /dev/nvme0n1 ]; then
   # NVMe device
   parted -s /dev/nvme0n1 \
-    mklabel gpt \
-    mkpart primary fat32 0% 513MiB \
-    set 1 esp on \
-    mkpart primary linux-swap 513MiB 65GiB \
-    mkpart primary ext4 65GiB 100%
-  
+  mklabel gpt \
+  mkpart primary fat32 0% 513MiB \
+  set 1 esp on \
+  mkpart primary linux-swap 513MiB 65GiB \
+  mkpart primary ext4 65GiB 100%
+
   # Creating filesystems
   mkfs.fat -F32 /dev/nvme0n1p1
   mkswap /dev/nvme0n1p2
@@ -30,12 +30,12 @@ if [ -e /dev/nvme0n1 ]; then
 else
   # SATA device
   parted -s /dev/sda \
-    mklabel gpt \
-    mkpart primary fat32 0% 513MiB \
-    set 1 esp on \
-    mkpart primary linux-swap 513MiB 65GiB \
-    mkpart primary ext4 65GiB 100%
-  
+  mklabel gpt \
+  mkpart primary fat32 0% 513MiB \
+  set 1 esp on \
+  mkpart primary linux-swap 513MiB 65GiB \
+  mkpart primary ext4 65GiB 100%
+
   # Creating filesystems
   mkfs.fat -F32 /dev/sda1
   mkswap /dev/sda2
@@ -68,6 +68,9 @@ chmod +x /mnt/Final.sh
 
 # Delete chroot script
 rm /mnt/Chroot.sh
+
+# umount
+umount -R /mnt
 
 # Reboot the system
 reboot
