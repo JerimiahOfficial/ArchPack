@@ -17,7 +17,6 @@ sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 sudo pacman -Syu --noconfirm
 
 # Enable nvidia for initial ramdisk
-# Reference: https://github.com/korvahannu/arch-nvidia-drivers-installation-guide
 sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
 sudo sed -i 's/kms //' /etc/mkinitcpio.conf
 
