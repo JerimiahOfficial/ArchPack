@@ -22,7 +22,7 @@ sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) 
 sudo sed -i 's/kms //' /etc/mkinitcpio.conf
 
 # Nvidia
-sudo pacman -S --noconfirm --needed mesa lib32-mesa libglvnd lib32-libglvnd lib32-keyutils lib32-krb5 nvidia nvidia-utils lib32-nvidia-utils
+sudo pacman -S --noconfirm mesa lib32-mesa libglvnd lib32-libglvnd lib32-keyutils lib32-krb5 nvidia nvidia-utils lib32-nvidia-utils
 
 # Make hooks directory for pacman
 sudo mkdir -p /etc/pacman.d/hooks
@@ -32,10 +32,10 @@ sudo mkdir -p /etc/pacman.d/hooks
 sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
 
 # Install display manager
-sudo pacman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
+sudo pacman -S --noconfirm xorg-server wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
 
 # Install desktop environment
-sudo pacman -S --noconfirm --needed xorg-server plasma-meta plasma-wayland-session konsole ufw dolphin
+sudo pacman -S --noconfirm plasma-meta plasma-wayland-session konsole ufw dolphin
 
 # Enable services
 sudo systemctl enable sddm.service
