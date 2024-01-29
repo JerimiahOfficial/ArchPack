@@ -36,7 +36,7 @@ sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
 sudo pacman -S --noconfirm --needed wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
 
 # Install desktop environment
-sudo pacman -S --noconfirm --needed plasma-meta plasma-wayland-session konsole ufw dolphin
+sudo pacman -S --noconfirm --needed plasma-wayland-session konsole ufw dolphin
 
 # Enable services
 sudo systemctl enable sddm.service
