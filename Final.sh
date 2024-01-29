@@ -24,14 +24,12 @@ sudo sed -i 's/kms //' /etc/mkinitcpio.conf
 # Nvidia
 sudo pacman -S --noconfirm mesa lib32-mesa libglvnd lib32-libglvnd lib32-keyutils lib32-krb5 nvidia nvidia-utils lib32-nvidia-utils
 
-# Make hooks directory for pacman
-sudo mkdir -p /etc/pacman.d/hooks
-
 # Create nvidia hooks for pacman
 # Reference: https://wiki.archlinux.org/title/NVIDIA#pacman_hook
+sudo mkdir -p /etc/pacman.d/hooks
 sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
 
-# Install display manager
+# Install display server
 sudo pacman -S --noconfirm xorg-server wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
 
 # Install desktop environment
