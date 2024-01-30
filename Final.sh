@@ -16,23 +16,33 @@ sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 # Update system
 sudo pacman -Syu --noconfirm
 
-# Enable nvidia for initial ramdisk
-sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
-sudo sed -i 's/kms //' /etc/mkinitcpio.conf
+# check if system is not a hyper visor using grep
+if grep -q "hypervisor" /proc/cpuinfo; then
+  echo "System is a hypervisor skipping nvidia setup."
+else
+  # Enable nvidia for initial ramdisk
+  sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
+  sudo sed -i 's/kms //' /etc/mkinitcpio.conf
 
-# Nvidia
-sudo pacman -S --noconfirm mesa lib32-mesa libglvnd lib32-libglvnd lib32-keyutils lib32-krb5 nvidia nvidia-utils lib32-nvidia-utils
+  # Nvidia
+  sudo pacman -S --noconfirm mesa lib32-mesa libglvnd lib32-libglvnd lib32-keyutils lib32-krb5 nvidia nvidia-utils lib32-nvidia-utils
 
-# Create nvidia hooks for pacman
-# Reference: https://wiki.archlinux.org/title/NVIDIA#pacman_hook
-sudo mkdir -p /etc/pacman.d/hooks
-sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
+  # Create nvidia hooks for pacman
+  # Reference: https://wiki.archlinux.org/title/NVIDIA#pacman_hook
+  sudo mkdir -p /etc/pacman.d/hooks
+  sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
+fi
 
 # Install display server
 sudo pacman -S --noconfirm xorg-server wayland xorg-xwayland qt5-wayland glfw-wayland egl-wayland
 
-# Install desktop environment
-sudo pacman -S --noconfirm plasma-meta plasma-wayland-session konsole ufw dolphin
+if grep -q "hypervisor" /proc/cpuinfo; then
+  # Install desktop environment
+  sudo pacman -S --noconfirm plasma-meta konsole ufw dolphin
+else
+  # Install desktop environment
+  sudo pacman -S --noconfirm plasma-meta plasma-wayland-session konsole ufw dolphin
+fi
 
 # Enable services
 sudo systemctl enable sddm.service

@@ -4,29 +4,9 @@
 chrootscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Chroot.sh"
 finalscript="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/Final.sh"
 
-# Creating partitions using parted
-# Check if the device is a NVMe device
-if [ -e /dev/nvme0n1 ]; then
-  # NVMe device
-  parted -s /dev/nvme0n1 \
-  mklabel gpt \
-  mkpart primary fat32 0% 513MiB \
-  set 1 esp on \
-  mkpart primary linux-swap 513MiB 65GiB \
-  mkpart primary ext4 65GiB 100%
-
-  # Creating filesystems
-  mkfs.fat -F32 /dev/nvme0n1p1
-  mkswap /dev/nvme0n1p2
-  swapon /dev/nvme0n1p2
-  mkfs.ext4 /dev/nvme0n1p3
-
-  # Mounting partitions
-  mount /dev/nvme0n1p3 /mnt
-  mkdir /mnt/boot
-  mkdir /mnt/home
-  mount /dev/nvme0n1p1 /mnt/boot
-else
+# check if system is a hypervisor
+# using grep to check if the system is a hypervisor
+if grep -q "hypervisor" /proc/cpuinfo; then
   # SATA device
   parted -s /dev/sda \
   mklabel gpt \
@@ -46,6 +26,26 @@ else
   mkdir /mnt/boot
   mkdir /mnt/home
   mount /dev/sda1 /mnt/boot
+else
+  # NVMe device
+  parted -s /dev/nvme0n1 \
+  mklabel gpt \
+  mkpart primary fat32 0% 513MiB \
+  set 1 esp on \
+  mkpart primary linux-swap 513MiB 65GiB \
+  mkpart primary ext4 65GiB 100%
+
+  # Creating filesystems
+  mkfs.fat -F32 /dev/nvme0n1p1
+  mkswap /dev/nvme0n1p2
+  swapon /dev/nvme0n1p2
+  mkfs.ext4 /dev/nvme0n1p3
+
+  # Mounting partitions
+  mount /dev/nvme0n1p3 /mnt
+  mkdir /mnt/boot
+  mkdir /mnt/home
+  mount /dev/nvme0n1p1 /mnt/boot
 fi
 
 # Installing base system
