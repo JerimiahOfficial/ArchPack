@@ -47,14 +47,14 @@ echo "default arch.conf" >/boot/loader/loader.conf
 echo "timeout 4" >>/boot/loader/loader.conf
 
 # Create bootloader config
-echo "title   Arch linux" >>/boot/loader/entries/arch.conf
+echo "title   Arch linux" >/boot/loader/entries/arch.conf
 echo "linux   /vmlinuz-linux" >>/boot/loader/entries/arch.conf
 echo "initrd  /intel-ucode.img" >>/boot/loader/entries/arch.conf
 echo "initrd  /initramfs-linux.img" >>/boot/loader/entries/arch.conf
 
 if grep -q "hypervisor" /proc/cpuinfo; then
   # SATA device
-  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) rw" >>/boot/loader/entries/arch.conf
+  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) rw nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
 else
   # NVMe device
   echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf

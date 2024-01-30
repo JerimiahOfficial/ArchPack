@@ -16,11 +16,11 @@ sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 # Update system
 sudo pacman -Syu --noconfirm
 
-# Enable nvidia for initial ramdisk
+# Nvidia
 sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
 sudo sed -i 's/kms //' /etc/mkinitcpio.conf
 
-# Nvidia
+# Install nvidia drivers
 sudo pacman -S --noconfirm mesa lib32-mesa libglvnd lib32-libglvnd lib32-keyutils lib32-krb5 nvidia nvidia-utils lib32-nvidia-utils
 
 # Create nvidia hooks for pacman
