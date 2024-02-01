@@ -42,11 +42,11 @@ mount -t efivarfs efivarfs /sys/firmware/efi/efivars
 # Intall bootloader
 bootctl --path=/boot install
 
-# Edit the loader config
+# Create bootloader config
 echo "default arch.conf" >/boot/loader/loader.conf
 echo "timeout 4" >>/boot/loader/loader.conf
 
-# Create bootloader config
+# Create bootloader entry config
 echo "title   Arch linux" >/boot/loader/entries/arch.conf
 echo "linux   /vmlinuz-linux" >>/boot/loader/entries/arch.conf
 echo "initrd  /intel-ucode.img" >>/boot/loader/entries/arch.conf
@@ -54,8 +54,8 @@ echo "initrd  /initramfs-linux.img" >>/boot/loader/entries/arch.conf
 
 if grep -q "hypervisor" /proc/cpuinfo; then
   # SATA device
-  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) rw nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
+  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) zswap.enabled=0 rw rootfstype=ext4 nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
 else
   # NVMe device
-  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
+  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) zswap.enabled=0 rw rootfstype=ext4 nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
 fi
