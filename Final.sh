@@ -21,7 +21,7 @@ sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) 
 sudo sed -i 's/kms //' /etc/mkinitcpio.conf
 
 # Install nvidia drivers
-sudo pacman -S --noconfirm mesa lib32-mesa nvidia-dkms nvidia-utils lib32-nvidia-utils
+sudo pacman -S --noconfirm mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils
 
 # Create nvidia hooks for pacman
 # Reference: https://wiki.archlinux.org/title/NVIDIA#pacman_hook
