@@ -38,8 +38,11 @@ sudo pacman -S --noconfirm plasma-meta plasma-wayland-session konsole ufw dolphi
 sudo systemctl enable sddm.service
 sudo systemctl enable ufw.service
 
+# Developement
+sudo pacman -S --noconfirm git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader
+
 # Applications
-sudo pacman -S --noconfirm bitwarden steam lutris vlc ark obs-studio kdenlive git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader
+sudo pacman -S --noconfirm bitwarden steam lutris vlc ark obs-studio kdenlive krita gwenview
 
 # Get user id and group id
 UUID=$(id -u)
