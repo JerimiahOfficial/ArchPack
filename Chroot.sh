@@ -54,8 +54,45 @@ echo "initrd  /initramfs-linux.img" >>/boot/loader/entries/arch.conf
 
 if grep -q "hypervisor" /proc/cpuinfo; then
   # SATA device
-  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) zswap.enabled=0 rw rootfstype=ext4 nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
+  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) zswap.enabled=0 rw rootfstype=ext4" >>/boot/loader/entries/arch.conf
 else
   # NVMe device
-  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) zswap.enabled=0 rw rootfstype=ext4 nvidia-drm.modeset=1" >>/boot/loader/entries/arch.conf
+  echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) zswap.enabled=0 rw rootfstype=ext4" >>/boot/loader/entries/arch.conf
 fi
+
+############################################################
+
+# Install nvidia drivers
+sudo pacman -S --noconfirm mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils
+
+# Install display server
+sudo pacman -S --noconfirm xorg-server wayland xorg-xwayland egl-wayland
+
+# Install desktop environment
+sudo pacman -S --noconfirm plasma-meta plasma-wayland-session konsole ufw dolphin
+
+# Enable services
+sudo systemctl enable sddm.service
+sudo systemctl enable ufw.service
+
+# Developement
+sudo pacman -S --noconfirm git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader
+
+# Applications
+sudo pacman -S --noconfirm bitwarden steam lutris vlc ark obs-studio kdenlive krita ktorrent gwenview
+
+# Get user id and group id
+UUID=$(id -u)
+GUID=$(id -g)
+
+# Installing yay
+cd ~
+sudo git clone https://aur.archlinux.org/yay.git
+sudo chown -R $UUID:$GUID yay
+(cd yay && makepkg -si --noconfirm)
+
+# Updating yay packages
+yay -Syu --noconfirm
+
+# Installing yay packages
+yay -S --noconfirm librewolf-bin modrinth-app-bin portmaster-stub-bin vesktop-bin vscodium-bin

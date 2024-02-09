@@ -7,7 +7,7 @@ if [ "$EUID" -eq 0 ]; then
 fi
 
 # Variables
-pacman_hook="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/nvidia.hook"
+# pacman_hook="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/nvidia.hook"
 
 # Edit pacman.conf
 sudo sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
@@ -16,17 +16,17 @@ sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 # Update system
 sudo pacman -Syu --noconfirm
 
-# Nvidia
-sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
-sudo sed -i 's/kms //' /etc/mkinitcpio.conf
+# Nvidia for dkms
+# sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
+# sudo sed -i 's/kms //' /etc/mkinitcpio.conf
 
 # Install nvidia drivers
 sudo pacman -S --noconfirm mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils
 
 # Create nvidia hooks for pacman
 # Reference: https://wiki.archlinux.org/title/NVIDIA#pacman_hook
-sudo mkdir -p /etc/pacman.d/hooks
-sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
+# sudo mkdir -p /etc/pacman.d/hooks
+# sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
 
 # Install display server
 sudo pacman -S --noconfirm xorg-server wayland xorg-xwayland egl-wayland
