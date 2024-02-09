@@ -8,6 +8,7 @@ echo "keyserver hkp://keyserver.ubuntu.com" >>/mnt/etc/pacman.d/gnupg/gpg.conf
 
 # Variables
 mirrorlist="https://archlinux.org/mirrorlist/?country=CA&protocol=https&ip_version=4&ip_version=6"
+pacman_hook="https://raw.githubusercontent.com/JerimiahOfficial/ArchPack/main/nvidia.hook"
 
 # Fetch mirrorlist
 curl -s $mirrorlist >/etc/pacman.d/mirrorlist
@@ -44,3 +45,12 @@ sudo usermod -aG libvirt $USER
 # Services
 sudo systemctl enable libvirtd
 sudo systemctl start libvirtd
+
+# Create nvidia hooks for pacman
+# Reference: https://wiki.archlinux.org/title/NVIDIA#pacman_hook
+sudo mkdir -p /etc/pacman.d/hooks
+sudo curl -o /etc/pacman.d/hooks/nvidia.hook $pacman_hook
+
+# Nvidia for dkms
+sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm) /' /etc/mkinitcpio.conf
+sudo sed -i 's/kms //' /etc/mkinitcpio.conf

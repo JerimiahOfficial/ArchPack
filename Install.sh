@@ -56,9 +56,9 @@ genfstab -U -p /mnt >/mnt/etc/fstab
 
 # Download scripts
 curl -s $chrootscript >/mnt/Chroot.sh
-# curl -s $finalscript >/mnt/Final.sh
+curl -s $finalscript >/mnt/Final.sh
 chmod +x /mnt/Chroot.sh
-# chmod +x /mnt/Final.sh
+chmod +x /mnt/Final.sh
 
 # Chroot
 arch-chroot /mnt /bin/bash /Chroot.sh
