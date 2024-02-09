@@ -42,7 +42,7 @@ sudo systemctl enable ufw.service
 sudo pacman -S --noconfirm git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader
 
 # Applications
-sudo pacman -S --noconfirm bitwarden steam lutris vlc ark obs-studio kdenlive krita gwenview
+sudo pacman -S --noconfirm bitwarden steam lutris vlc ark obs-studio kdenlive krita ktorrent gwenview
 
 # Get user id and group id
 UUID=$(id -u)
