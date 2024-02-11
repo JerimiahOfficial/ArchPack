@@ -70,10 +70,10 @@ sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 pacman -Syu --noconfirm
 
 # Install nvidia drivers
-pacman -S --noconfirm mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils\
+pacman -S --noconfirm nvidia-open-dkms
 
 # Install display server
-pacman -S --noconfirm xorg-server wayland xorg-xwayland egl-wayland
+pacman -S --noconfirm xorg-xinit wayland xorg-xwayland
 
 # Install desktop environment
 pacman -S --noconfirm plasma-meta plasma-wayland-session konsole ufw dolphin
@@ -86,4 +86,5 @@ pacman -S --noconfirm bitwarden steam lutris vlc ark obs-studio kdenlive krita k
 
 # Enable services
 systemctl enable sddm.service
+systemctl enable NetworkManager.service
 systemctl enable ufw.service

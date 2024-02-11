@@ -49,7 +49,7 @@ else
 fi
 
 # Installing base system
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano sudo networkmanager intel-ucode --noconfirm --needed
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano sudo network-manager-applet intel-ucode --noconfirm --needed
 
 # Generating fstab
 genfstab -U -p /mnt >/mnt/etc/fstab
