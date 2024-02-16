@@ -1,8 +1,4 @@
-#
-#
-#   Still deciding on what to do with this
-#
-#
+# This file contains the unused commands from pervious versions.
 
 echo "keyserver hkp://keyserver.ubuntu.com" >>/mnt/etc/pacman.d/gnupg/gpg.conf
 
