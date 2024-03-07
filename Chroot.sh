@@ -37,7 +37,7 @@ sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 
 pacman -Syu --noconfirm
-pacman -S --noconfirm nvidia-open-dkms
+pacman -S --noconfirm nvidia nvidia-utils lib32-nvidia-utils nvidia-settings
 pacman -S --noconfirm xorg-xinit wayland xorg-xwayland
 pacman -S --noconfirm plasma-meta plasma-wayland-session konsole ufw dolphin
 pacman -S --noconfirm git jre17-openjdk nodejs npm cmake vulkan-icd-loader lib32-vulkan-icd-loader
