@@ -14,6 +14,6 @@ sudo chown -R $UUID:$GUID yay
 (cd yay && makepkg -si --noconfirm)
 
 yay -Syu --noconfirm
-yay -S --noconfirm librewolf-bin modrinth-app-bin portmaster-stub-bin vesktop-bin vscodium-bin
+yay -S --noconfirm librewolf-bin modrinth-app-bin portmaster-stub-bin vesktop-bin visual-studio-code-bin
 
 sudo rm /Final.sh
